@@ -11,3 +11,8 @@ spring:
       ddl-auto: update
     properties:
         show_sql: true
+
+jwt:
+  secret-key: ajsdkljfkja&(@)*()(DSFSSFD
+  access-exp: 7200000
+  refresh-exp: 604800000
