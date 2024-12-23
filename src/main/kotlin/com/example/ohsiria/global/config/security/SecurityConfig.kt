@@ -40,8 +40,9 @@ class SecurityConfig(
                 authorize.anyRequest().authenticated()
             }
 
-        http.addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter::class.java)
-        http.addFilterAfter(TokenFilter(tokenResolver, tokenProvider), ExceptionHandlerFilter::class.java)
+        http
+            .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterAfter(TokenFilter(tokenResolver, tokenProvider), ExceptionHandlerFilter::class.java)
 
         return http.build()
     }
