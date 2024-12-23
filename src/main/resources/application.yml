@@ -11,6 +11,11 @@ spring:
       ddl-auto: update
     properties:
         show_sql: true
+  data:
+    redis:
+      port: 6379
+      host: localhost
+      database: 1
 
 jwt:
   secret-key: ajsdkljfkja&(@)*()(DSFSSFD
