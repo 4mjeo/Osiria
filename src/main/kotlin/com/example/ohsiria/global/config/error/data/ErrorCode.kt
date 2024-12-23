@@ -9,6 +9,7 @@ enum class ErrorCode(
 
     //400
     ACCOUNT_ID_NOT_EXIST(HttpStatus.BAD_REQUEST, "존재하지 않는 계정입니다."),
+    PASSWORD_MISMATCHED(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 
     //401
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않는 토큰입니다."),
