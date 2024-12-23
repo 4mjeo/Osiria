@@ -10,10 +10,16 @@ class CompanyDetails(
     private val authorities: Collection<GrantedAuthority>
 ) : UserDetails {
     override fun getAuthorities() = authorities
+
     override fun getPassword() = password
+
     override fun getUsername() = id.toString()
+
     override fun isAccountNonExpired() = true
+
     override fun isAccountNonLocked() = true
+
     override fun isCredentialsNonExpired() = true
+
     override fun isEnabled() = true
 }
