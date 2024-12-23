@@ -20,7 +20,7 @@ class CreateCompanyAccountService(
 
     @Transactional
     fun execute(request: CreateCompanyAccountRequest) {
-        if (companyRepository.existsByAccountId(request.accountId)) throw AlreadyExistingAccountException
+        if (userRepository.existsByAccountId(request.accountId)) throw AlreadyExistingAccountException
 
         val user = User(
             name = request.name,

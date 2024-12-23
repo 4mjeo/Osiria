@@ -44,8 +44,8 @@ class SecurityConfig(
             }
 
         http
-            .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter::class.java)
-            .addFilterAfter(TokenFilter(tokenResolver, tokenProvider), ExceptionHandlerFilter::class.java)
+            .addFilterBefore(TokenFilter(tokenResolver, tokenProvider), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(exceptionHandlerFilter, TokenFilter::class.java)
 
         return http.build()
     }

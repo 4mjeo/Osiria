@@ -7,5 +7,4 @@ import java.util.*
 
 @Repository
 interface CompanyRepository: JpaRepository<Company, UUID?> {
-    fun existsByAccountId(accountId: String): Boolean
 }

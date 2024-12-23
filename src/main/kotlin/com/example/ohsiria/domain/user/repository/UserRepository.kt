@@ -8,4 +8,6 @@ import java.util.*
 @Repository
 interface UserRepository: JpaRepository<User, UUID?> {
     fun findByAccountId(accountId: String): User?
+
+    fun existsByAccountId(accountId: String): Boolean
 }

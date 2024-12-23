@@ -21,9 +21,9 @@ class TokenFilter(
         filterChain: FilterChain
     ) {
         tokenResolver.resolveToken(request)
-        ?.let {
-            SecurityContextHolder.getContext().authentication = tokenProvider.getAuthentication(it)
-        }
+            ?.let {
+                SecurityContextHolder.getContext().authentication = tokenProvider.getAuthentication(it)
+            }
         filterChain.doFilter(request, response)
     }
 }
