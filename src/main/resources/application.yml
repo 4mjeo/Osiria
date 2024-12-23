@@ -18,6 +18,6 @@ spring:
       database: 1
 
 jwt:
-  secret-key: ajsdkljfkja&(@)*()(DSFSSFD
+  secret-key: jkfdlajdlsjfasjflsajffdjsafsjasfsfasfsfasfsf
   access-exp: 7200000
   refresh-exp: 604800000
