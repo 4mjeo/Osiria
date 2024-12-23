@@ -12,5 +12,5 @@ class AuthDetailsService(
 ) : UserDetailsService {
 
     override fun loadUserByUsername(accountId: String): UserDetails =
-        AuthDetails(userRepository.findByAccountId(accountId) ?: throw UserNotFoundException)
+        CompanyDetails(userRepository.findByAccountId(accountId) ?: throw UserNotFoundException)
 }

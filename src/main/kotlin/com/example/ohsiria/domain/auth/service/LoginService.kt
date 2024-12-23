@@ -23,6 +23,6 @@ class LoginService(
 
         if (!passwordEncoder.matches(request.password, user.password)) throw PasswordMismatchedException
 
-        return tokenProvider.receiveToken(user.accountId)
+        return tokenProvider.receiveToken(user.accountId, user.type)
     }
 }
