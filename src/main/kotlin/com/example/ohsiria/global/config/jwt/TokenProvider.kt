@@ -3,17 +3,22 @@ package com.example.ohsiria.global.config.jwt
 import com.example.ohsiria.domain.auth.entity.RefreshToken
 import com.example.ohsiria.domain.auth.presentation.dto.TokenResponse
 import com.example.ohsiria.domain.auth.repository.RefreshTokenRepository
+import com.example.ohsiria.domain.user.entity.UserType
 import com.example.ohsiria.global.config.error.exception.ExpiredTokenException
 import com.example.ohsiria.global.config.error.exception.InvalidTokenException
-import com.example.ohsiria.global.config.security.principal.AuthDetails
-import com.example.ohsiria.global.config.security.principal.AuthDetailsService
+import com.example.ohsiria.global.config.security.principal.CompanyDetailsService
+import com.example.ohsiria.global.config.security.principal.ManagerDetailsService
 import com.example.ohsiria.global.env.jwt.TokenProperty
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.Header
+import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.util.*
@@ -22,51 +27,70 @@ import java.util.*
 class TokenProvider(
     private val refreshTokenRepository: RefreshTokenRepository,
     private val property: TokenProperty,
-    private val authDetailsService: AuthDetailsService
+    private val companyDetailsService: CompanyDetailsService,
+    private val managerDetailsService: ManagerDetailsService
 ) {
 
-    private fun generateAccessToken(sub: String): String {
+    fun receiveToken(accountId: String, userType: UserType): TokenResponse {
+        return TokenResponse(
+            accessToken = generateAccessToken(accountId, userType),
+            accessExpiredAt = getExp(property.accessExp),
+            refreshToken = generateRefreshToken(accountId, userType),
+            refreshExpiredAt = getExp(property.refreshExp)
+        )
+    }
+
+    private fun generateAccessToken(accountId: String, userType: UserType): String {
         return Jwts.builder()
             .signWith(SignatureAlgorithm.HS256, property.secretKey)
-            .setSubject(sub)
+            .setSubject(accountId)
+            .claim("userType", userType.name)
             .setIssuedAt(Date())
-            .setExpiration(Date(Date().time.plus(property.accessExp)))
+            .setExpiration(Date(System.currentTimeMillis() + property.accessExp * 1000))
+            .setHeaderParam(Header.TYPE, "ACCESS")
             .compact()
     }
 
-    private fun generateRefreshToken(sub: String): String {
-
-        refreshTokenRepository.findByIdOrNull(sub)?.let {
+    private fun generateRefreshToken(accountId: String, userType: UserType): String {
+        refreshTokenRepository.findByIdOrNull(accountId)?.let {
             refreshTokenRepository.delete(it)
-        }.apply {
-
         }
 
-        val rfToken = Jwts.builder()
+        val token = Jwts.builder()
             .signWith(SignatureAlgorithm.HS256, property.secretKey)
+            .setSubject(accountId)
+            .claim("userType", userType.name)
             .setIssuedAt(Date())
-            .setExpiration(Date(Date().time.plus(property.refreshExp)))
+            .setExpiration(Date(System.currentTimeMillis() + property.refreshExp * 1000))
+            .setHeaderParam(Header.TYPE, "REFRESH")
             .compact()
 
-        refreshTokenRepository.save(RefreshToken(rfToken, sub))
+        refreshTokenRepository.save(RefreshToken(token, accountId))
 
-        return rfToken
+        return token
     }
 
-    fun receiveToken(sub: String) = TokenResponse (
-        generateAccessToken(sub),
-        getExp(property.accessExp),
-        generateRefreshToken(sub),
-        getExp(property.refreshExp)
-    )
+    private fun getExp(exp: Long): LocalDateTime {
+        return LocalDateTime.now().withNano(0).plusSeconds(exp / 1000)
+    }
 
-    private fun getExp(exp: Long) = LocalDateTime.now().withNano(0).plusSeconds(exp / 1000)
+    fun getAuthentication(token: String): Authentication {
+        val claims = getClaims(token)
 
-    private fun getSubject(token: String): String {
+        if (claims.header[Header.TYPE] != "ACCESS") {
+            throw InvalidTokenException
+        }
+
+        val userDetails = getUserDetails(claims.body)
+
+        return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
+    }
+
+    private fun getClaims(token: String): Jws<Claims> {
         return try {
             Jwts.parser()
                 .setSigningKey(property.secretKey)
-                .parseClaimsJws(token).body.subject
+                .parseClaimsJws(token)
         } catch (e: Exception) {
             when (e) {
                 is ExpiredJwtException -> throw ExpiredTokenException
@@ -75,20 +99,26 @@ class TokenProvider(
         }
     }
 
-    fun getAuthentication(token: String): Authentication {
+    private fun getUserDetails(body: Claims): UserDetails {
+        val accountId = body.subject
+        val userType = UserType.valueOf(body["userType", String::class.java])
 
-        val subject = getSubject(token)
-
-        val authDetails = authDetailsService.loadUserByUsername(subject) as AuthDetails
-
-        return UsernamePasswordAuthenticationToken(authDetails, "", authDetails.authorities)
+        return when (userType) {
+            UserType.COMPANY -> companyDetailsService.loadUserByUsername(accountId)
+            UserType.MANAGER -> managerDetailsService.loadUserByUsername(accountId)
+        }
     }
 
-    fun reissue(token: String): TokenResponse {
+    fun reissue(refreshToken: String): TokenResponse {
+        val claims = getClaims(refreshToken)
 
-        val refreshToken = refreshTokenRepository.findByIdOrNull(token)
-            ?: throw InvalidTokenException
+        if (claims.header[Header.TYPE] != "REFRESH") {
+            throw InvalidTokenException
+        }
 
-        return receiveToken(refreshToken.accountId)
+        val accountId = claims.body.subject
+        val userType = UserType.valueOf(claims.body["userType", String::class.java])
+
+        return receiveToken(accountId, userType)
     }
 }
