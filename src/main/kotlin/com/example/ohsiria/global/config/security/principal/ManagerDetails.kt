@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
-class CompanyDetails(
+class ManagerDetails(
     val id: UUID,
     private val password: String,
     private val authorities: Collection<GrantedAuthority>

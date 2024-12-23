@@ -9,17 +9,15 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
 
 @Component
-class CompanyDetailsService(
-    private val userRepository: UserRepository
-) : UserDetailsService {
+class ManagerDetailsService(private val userRepository: UserRepository) : UserDetailsService {
     override fun loadUserByUsername(accountId: String): UserDetails {
-        val company = userRepository.findByAccountId(accountId)
+        val manager = userRepository.findByAccountId(accountId)
             ?: throw UserNotFoundException
 
-        return CompanyDetails(
-            id = company.id!!,
-            password = company.password,
-            authorities = listOf(SimpleGrantedAuthority(UserType.COMPANY.name))
+        return ManagerDetails(
+            id = manager.id!!,
+            password = manager.password,
+            authorities = listOf(SimpleGrantedAuthority(UserType.MANAGER.name))
         )
     }
 }
