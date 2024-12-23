@@ -17,6 +17,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration
 import java.util.*
 
+import com.example.ohsiria.domain.user.entity.UserType.COMPANY
+import com.example.ohsiria.domain.user.entity.UserType.MANAGER
+
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
@@ -36,6 +39,7 @@ class SecurityConfig(
         http
             .authorizeHttpRequests { authorize ->
                 authorize.requestMatchers("/auth/**").permitAll()
+                authorize.requestMatchers("/manager/**").hasAuthority(COMPANY.name)
                 authorize.anyRequest().authenticated()
             }
 

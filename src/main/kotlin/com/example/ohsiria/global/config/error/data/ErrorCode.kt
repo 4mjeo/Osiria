@@ -25,6 +25,7 @@ enum class ErrorCode(
     //409
     ALREADY_RESERVED(HttpStatus.CONFLICT, "이미 예약했습니다."),
     ALREADY_CANCELED(HttpStatus.CONFLICT, "이미 취소했습니다."),
+    ALREADY_EXISTING_ACCOUNT(HttpStatus.CONFLICT, "이미 존재하는 아이디입니다."),
 
     //500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러"),
