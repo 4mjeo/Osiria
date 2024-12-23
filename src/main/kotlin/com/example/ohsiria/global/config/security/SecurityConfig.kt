@@ -39,7 +39,7 @@ class SecurityConfig(
         http
             .authorizeHttpRequests { authorize ->
                 authorize.requestMatchers("/auth/**").permitAll()
-                authorize.requestMatchers("/manager/**").hasAuthority(COMPANY.name)
+                authorize.requestMatchers("/manager/**").hasAuthority(MANAGER.name)
                 authorize.anyRequest().authenticated()
             }
 
