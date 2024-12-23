@@ -36,7 +36,7 @@ class SecurityConfig(
 
         http
             .authorizeHttpRequests { authorize ->
-                authorize.requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                authorize.requestMatchers("/auth/**").permitAll()
                 authorize.anyRequest().authenticated()
             }
 
