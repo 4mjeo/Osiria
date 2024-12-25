@@ -10,6 +10,8 @@ enum class ErrorCode(
     //400
     ACCOUNT_ID_NOT_EXIST(HttpStatus.BAD_REQUEST, "존재하지 않는 계정입니다."),
     PASSWORD_MISMATCHED(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    COMPANY_MISMATCH(HttpStatus.BAD_REQUEST, "회사가 일치하지 않습니다."),
+    INVALID_DATE_RANGE(HttpStatus.BAD_REQUEST, "유효하지 않은 기간입니다."),
 
     //401
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않는 토큰입니다."),
@@ -26,6 +28,7 @@ enum class ErrorCode(
     ALREADY_RESERVED(HttpStatus.CONFLICT, "이미 예약했습니다."),
     ALREADY_CANCELED(HttpStatus.CONFLICT, "이미 취소했습니다."),
     ALREADY_EXISTING_ACCOUNT(HttpStatus.CONFLICT, "이미 존재하는 아이디입니다."),
+    RESERVATION_CONFLICT(HttpStatus.CONFLICT, "이미 예약된 날짜입니다."),
 
     //500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러"),
