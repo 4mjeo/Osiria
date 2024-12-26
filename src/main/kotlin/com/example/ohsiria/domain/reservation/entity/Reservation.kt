@@ -1,24 +1,23 @@
 package com.example.ohsiria.domain.reservation.entity
 
-import com.example.ohsiria.domain.user.entity.User
+import com.example.ohsiria.domain.company.entity.Company
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
 
 @Entity(name = "tbl_reservation")
 @DynamicUpdate
-class Booker(
+class Reservation(
     id: UUID? = null,
     startDate: LocalDate,
-    endDate: LocalDateTime,
+    endDate: LocalDate,
     headCount: Int,
     phoneNumber: String,
     name: String,
     isCancel: Boolean? = null,
     isHoliday: Boolean = false,
-    user: User,
+    company: Company,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,7 +29,7 @@ class Booker(
         protected set
 
     @Column(name = "end_date", columnDefinition = "DATE", nullable = false)
-    var endDate: LocalDateTime = endDate
+    var endDate: LocalDate = endDate
         protected set
 
     @Column(name = "head_count", columnDefinition = "INT", nullable = false)
@@ -50,7 +49,7 @@ class Booker(
         protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    var user: User = user
+    @JoinColumn(name = "company_id", nullable = false)
+    var company: Company = company
         protected set
 }
