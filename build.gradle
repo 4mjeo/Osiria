@@ -59,20 +59,6 @@ kotlin {
     }
 }
 
-def generatedDir = file("build/generated/querydsl")
-
-sourceSets {
-    main {
-        java {
-            srcDir generatedDir
-        }
-    }
-}
-
-tasks.withType(JavaCompile) {
-    options.annotationProcessorGeneratedSourcesDirectory = generatedDir
-}
-
 allOpen {
     annotation 'jakarta.persistence.Entity'
     annotation 'jakarta.persistence.MappedSuperclass'
