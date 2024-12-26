@@ -6,19 +6,21 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 import com.example.ohsiria.domain.reservation.entity.QReservation.reservation
+import com.example.ohsiria.domain.room.entity.RoomType
 
 @Service
 class ReservationRepositoryCustomImpl(
     private val queryFactory: JPAQueryFactory
 ) : ReservationRepositoryCustom {
 
-    override fun existsByDateRange(startDate: LocalDate, endDate: LocalDate): Boolean {
+    override fun existsByDateRangeAndRoom(startDate: LocalDate, endDate: LocalDate, roomType: RoomType): Boolean {
         return queryFactory
             .selectOne()
             .from(reservation)
             .where(
                 reservation.startDate.loe(endDate),
-                reservation.endDate.goe(startDate)
+                reservation.endDate.goe(startDate),
+                reservation.roomType.eq(roomType)
             )
             .fetchFirst() != null
     }
@@ -27,7 +29,7 @@ class ReservationRepositoryCustomImpl(
         return false
     }
 
-    override fun countDaysByCompanyAndDateRange(
+    override fun countDaysByCompanyAndDateRangeAndType(
         company: Company,
         startDate: LocalDate,
         endDate: LocalDate,
@@ -36,7 +38,7 @@ class ReservationRepositoryCustomImpl(
         return queryFactory
             .selectFrom(reservation)
             .where(
-                reservation.company.id.eq(company.id),
+                reservation.company.eq(company),
                 reservation.startDate.loe(endDate),
                 reservation.endDate.goe(startDate),
                 reservation.isHoliday.eq(isHoliday)
