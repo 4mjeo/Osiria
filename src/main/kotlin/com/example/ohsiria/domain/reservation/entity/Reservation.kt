@@ -1,6 +1,7 @@
 package com.example.ohsiria.domain.reservation.entity
 
 import com.example.ohsiria.domain.company.entity.Company
+import com.example.ohsiria.domain.room.entity.RoomType
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDate
@@ -18,6 +19,7 @@ class Reservation(
     isCancel: Boolean? = null,
     isHoliday: Boolean = false,
     company: Company,
+    roomType: RoomType,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,5 +53,10 @@ class Reservation(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     var company: Company = company
+        protected set
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "room_type", columnDefinition = "VARCHAR(10)", nullable = false)
+    var roomType: RoomType = roomType
         protected set
 }

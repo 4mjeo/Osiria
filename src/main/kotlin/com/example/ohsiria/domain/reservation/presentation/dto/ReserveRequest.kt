@@ -1,5 +1,6 @@
 package com.example.ohsiria.domain.reservation.presentation.dto
 
+import com.example.ohsiria.domain.room.entity.RoomType
 import org.jetbrains.annotations.NotNull
 import java.time.LocalDate
 
@@ -18,4 +19,7 @@ data class ReserveRequest(
 
     @field:NotNull
     val name: String,
+
+    @field:NotNull
+    val roomType: RoomType
 )
