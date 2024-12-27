@@ -6,6 +6,7 @@ import java.util.*
 
 class ManagerDetails(
     val id: UUID,
+    private val accountId: String,
     private val password: String,
     private val authorities: Collection<GrantedAuthority>
 ) : UserDetails {
@@ -13,7 +14,7 @@ class ManagerDetails(
 
     override fun getPassword() = password
 
-    override fun getUsername() = id.toString()
+    override fun getUsername() = accountId
 
     override fun isAccountNonExpired() = true
 

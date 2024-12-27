@@ -18,6 +18,7 @@ class CompanyDetailsService(
 
         return CompanyDetails(
             id = company.id!!,
+            accountId = company.accountId,
             password = company.password,
             authorities = listOf(SimpleGrantedAuthority(UserType.COMPANY.name))
         )

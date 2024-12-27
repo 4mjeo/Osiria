@@ -16,6 +16,7 @@ class ManagerDetailsService(private val userRepository: UserRepository) : UserDe
 
         return ManagerDetails(
             id = manager.id!!,
+            accountId = manager.accountId,
             password = manager.password,
             authorities = listOf(SimpleGrantedAuthority(UserType.MANAGER.name))
         )

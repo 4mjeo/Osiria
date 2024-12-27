@@ -19,6 +19,7 @@ import java.util.*
 
 import com.example.ohsiria.domain.user.entity.UserType.COMPANY
 import com.example.ohsiria.domain.user.entity.UserType.MANAGER
+import org.springframework.http.HttpMethod
 
 @Configuration
 @EnableWebSecurity
@@ -40,6 +41,7 @@ class SecurityConfig(
             .authorizeHttpRequests { authorize ->
                 authorize.requestMatchers("/auth/**").permitAll()
                 authorize.requestMatchers("/manager/**").hasAuthority(MANAGER.name)
+                authorize.requestMatchers(HttpMethod.POST, "/reservation").hasAuthority(COMPANY.name)
                 authorize.anyRequest().authenticated()
             }
 
