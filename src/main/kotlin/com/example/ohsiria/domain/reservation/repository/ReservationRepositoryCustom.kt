@@ -7,7 +7,5 @@ import java.time.LocalDate
 interface ReservationRepositoryCustom {
     fun existsByDateRangeAndRoom(startDate: LocalDate, endDate: LocalDate, roomType: RoomType): Boolean
 
-    fun isHoliday(startDate: LocalDate, endDate: LocalDate): Boolean
-
     fun countDaysByCompanyAndDateRangeAndType(company: Company, startDate: LocalDate, endDate: LocalDate, isHoliday: Boolean): Long
 }

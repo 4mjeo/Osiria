@@ -21,3 +21,8 @@ jwt:
   secret-key: jkfdlajdlsjfasjflsajffdjsafsjasfsfasfsfasfsf
   access-exp: 7200000
   refresh-exp: 604800000
+
+holiday:
+  api:
+    url: ${HOLIDAY_URL}
+    key: ${HOLIDAY_KEY}

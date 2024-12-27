@@ -25,10 +25,6 @@ class ReservationRepositoryCustomImpl(
             .fetchFirst() != null
     }
 
-    override fun isHoliday(startDate: LocalDate, endDate: LocalDate): Boolean {
-        return false
-    }
-
     override fun countDaysByCompanyAndDateRangeAndType(
         company: Company,
         startDate: LocalDate,
