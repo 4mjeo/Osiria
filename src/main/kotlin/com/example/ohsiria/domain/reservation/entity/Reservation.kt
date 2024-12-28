@@ -16,7 +16,7 @@ class Reservation(
     headCount: Int,
     phoneNumber: String,
     name: String,
-    isCancel: Boolean? = null,
+    isCancel: Boolean = false,
     company: Company,
     roomType: RoomType,
 ) {
@@ -45,6 +45,10 @@ class Reservation(
     var name: String = name
         protected set
 
+    @Column(name = "is_cancel", columnDefinition = "BOOLEAN", nullable = false)
+    var isCancel: Boolean = isCancel
+        protected set
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     var company: Company = company
@@ -54,4 +58,8 @@ class Reservation(
     @Column(name = "room_type", columnDefinition = "VARCHAR(10)", nullable = false)
     var roomType: RoomType = roomType
         protected set
+
+    fun cancel() {
+        this.isCancel = true
+    }
 }
