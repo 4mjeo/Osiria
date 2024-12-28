@@ -49,4 +49,14 @@ class Company(
 
         return remainWeekday >= weekdayCount && remainWeekend >= weekendCount
     }
+
+    fun returnRemainingDays(dates: List<Pair<LocalDate, Boolean>>, holidays: Set<LocalDate>) {
+        dates.forEach { (date, isWeekend) ->
+            if (isWeekend || holidays.contains(date)) {
+                remainWeekend++
+            } else {
+                remainWeekday++
+            }
+        }
+    }
 }
