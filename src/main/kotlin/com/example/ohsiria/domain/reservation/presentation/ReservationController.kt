@@ -1,6 +1,7 @@
 package com.example.ohsiria.domain.reservation.presentation
 
 import com.example.ohsiria.domain.reservation.presentation.dto.ReserveRequest
+import com.example.ohsiria.domain.reservation.presentation.dto.ReserveResponse
 import com.example.ohsiria.domain.reservation.service.CancelReservationService
 import com.example.ohsiria.domain.reservation.service.ReserveService
 import jakarta.validation.Valid
@@ -24,9 +25,8 @@ class ReservationController(
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun reserve(@RequestBody @Valid request: ReserveRequest) {
+    fun reserve(@RequestBody @Valid request: ReserveRequest): ReserveResponse =
         reserveService.execute(request)
-    }
 
     @PatchMapping("/{reservation-id}")
     fun cancel(@PathVariable("reservation-id") reservationId: UUID) {

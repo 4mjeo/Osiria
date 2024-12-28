@@ -7,6 +7,7 @@ import com.example.ohsiria.domain.reservation.checker.ReservationChecker
 import com.example.ohsiria.domain.reservation.entity.Reservation
 import com.example.ohsiria.domain.reservation.exception.ShortageRemainingDaysException
 import com.example.ohsiria.domain.reservation.presentation.dto.ReserveRequest
+import com.example.ohsiria.domain.reservation.presentation.dto.ReserveResponse
 import com.example.ohsiria.domain.reservation.repository.ReservationRepository
 import com.example.ohsiria.global.common.facade.UserFacade
 import org.springframework.stereotype.Service
@@ -22,7 +23,7 @@ class ReserveService(
     private val holidayRepository: HolidayRepository
 ) {
     @Transactional
-    fun execute(request: ReserveRequest) {
+    fun execute(request: ReserveRequest): ReserveResponse {
         val user = userFacade.getCurrentUser()
         val company = companyRepository.findByUser(user) ?: throw CompanyNotFoundException
 
@@ -49,6 +50,8 @@ class ReserveService(
 
         company.updateRemainingDays(dates)
         companyRepository.save(company)
+
+        return ReserveResponse(reservationId = reservation.id!!)
     }
 
     private fun getDatesWithHolidayInfo(startDate: LocalDate, endDate: LocalDate): List<Pair<LocalDate, Boolean>> {

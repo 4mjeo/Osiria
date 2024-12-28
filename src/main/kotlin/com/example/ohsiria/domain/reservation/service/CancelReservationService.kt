@@ -2,7 +2,6 @@ package com.example.ohsiria.domain.reservation.service
 
 import com.example.ohsiria.domain.company.repository.CompanyRepository
 import com.example.ohsiria.domain.holiday.repository.HolidayRepository
-import com.example.ohsiria.domain.reservation.entity.Reservation
 import com.example.ohsiria.domain.reservation.exception.InvalidCancellationException
 import com.example.ohsiria.domain.reservation.exception.ReservationNotFoundException
 import com.example.ohsiria.domain.reservation.repository.ReservationRepository
