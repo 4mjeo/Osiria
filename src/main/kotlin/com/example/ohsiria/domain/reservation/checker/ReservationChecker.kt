@@ -2,7 +2,7 @@ package com.example.ohsiria.domain.reservation.checker
 
 import com.example.ohsiria.domain.company.entity.Company
 import com.example.ohsiria.domain.company.exception.CompanyMismatchException
-import com.example.ohsiria.domain.company.exception.InvalidDateRangeException
+import com.example.ohsiria.domain.reservation.exception.InvalidDateRangeException
 import com.example.ohsiria.domain.reservation.exception.ReservationConflictException
 import com.example.ohsiria.domain.reservation.repository.ReservationRepositoryCustom
 import com.example.ohsiria.domain.room.entity.RoomType
@@ -28,7 +28,14 @@ class ReservationChecker(
     }
 
     fun checkDateRange(startDate: LocalDate, endDate: LocalDate) {
-        if (endDate.isBefore(startDate) || ChronoUnit.DAYS.between(startDate, endDate) > 3)
-            throw InvalidDateRangeException
+        val today = LocalDate.now()
+        when {
+            endDate.isBefore(startDate) ->
+                throw InvalidDateRangeException
+            ChronoUnit.DAYS.between(startDate, endDate) > 3 ->
+                throw InvalidDateRangeException
+            ChronoUnit.DAYS.between(today, startDate) < 7 ->
+                throw InvalidDateRangeException
+        }
     }
 }
