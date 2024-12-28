@@ -2,13 +2,13 @@ package com.example.ohsiria.domain.reservation.service
 
 import com.example.ohsiria.domain.company.exception.CompanyNotFoundException
 import com.example.ohsiria.domain.company.repository.CompanyRepository
+import com.example.ohsiria.domain.holiday.repository.HolidayRepository
 import com.example.ohsiria.domain.reservation.checker.ReservationChecker
 import com.example.ohsiria.domain.reservation.entity.Reservation
 import com.example.ohsiria.domain.reservation.exception.ShortageRemainingDaysException
 import com.example.ohsiria.domain.reservation.presentation.dto.ReserveRequest
 import com.example.ohsiria.domain.reservation.repository.ReservationRepository
 import com.example.ohsiria.global.common.facade.UserFacade
-import com.example.ohsiria.infra.holiday.service.GetHolidayService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -19,7 +19,7 @@ class ReserveService(
     private val userFacade: UserFacade,
     private val reservationChecker: ReservationChecker,
     private val companyRepository: CompanyRepository,
-    private val getHolidayService: GetHolidayService
+    private val holidayRepository: HolidayRepository
 ) {
     @Transactional
     fun execute(request: ReserveRequest) {
@@ -52,8 +52,9 @@ class ReserveService(
     }
 
     private fun getDatesWithHolidayInfo(startDate: LocalDate, endDate: LocalDate): List<Pair<LocalDate, Boolean>> {
+        val holidays = holidayRepository.findByDateBetween(startDate, endDate)
         return startDate.datesUntil(endDate.plusDays(1))
-            .map { it to getHolidayService.isHoliday(it) }
+            .map { it to holidays.any { holiday -> holiday.date == it } }
             .toList()
     }
 }

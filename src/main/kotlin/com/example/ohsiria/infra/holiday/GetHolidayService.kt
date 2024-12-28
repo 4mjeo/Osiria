@@ -1,4 +1,4 @@
-package com.example.ohsiria.infra.holiday.service
+package com.example.ohsiria.infra.holiday
 
 import com.example.ohsiria.domain.holiday.entity.Holiday
 import com.example.ohsiria.domain.holiday.repository.HolidayRepository
