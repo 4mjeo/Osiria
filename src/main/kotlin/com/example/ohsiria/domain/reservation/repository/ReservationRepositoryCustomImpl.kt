@@ -28,8 +28,7 @@ class ReservationRepositoryCustomImpl(
     override fun countDaysByCompanyAndDateRangeAndType(
         company: Company,
         startDate: LocalDate,
-        endDate: LocalDate,
-        isHoliday: Boolean
+        endDate: LocalDate
     ): Long {
         return queryFactory
             .selectFrom(reservation)
@@ -37,7 +36,6 @@ class ReservationRepositoryCustomImpl(
                 reservation.company.eq(company),
                 reservation.startDate.loe(endDate),
                 reservation.endDate.goe(startDate),
-                reservation.isHoliday.eq(isHoliday)
             )
             .fetchCount()
     }

@@ -17,7 +17,6 @@ class Reservation(
     phoneNumber: String,
     name: String,
     isCancel: Boolean? = null,
-    isHoliday: Boolean = false,
     company: Company,
     roomType: RoomType,
 ) {
@@ -44,10 +43,6 @@ class Reservation(
 
     @Column(name = "name", columnDefinition = "VARCHAR(4)", nullable = false)
     var name: String = name
-        protected set
-
-    @Column(name = "is_holiday", columnDefinition = "BIT(1)", nullable = false)
-    var isHoliday: Boolean = isHoliday
         protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
