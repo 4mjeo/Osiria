@@ -1,5 +1,7 @@
 package com.example.ohsiria.infra.holiday.service
 
+import com.example.ohsiria.domain.holiday.entity.Holiday
+import com.example.ohsiria.domain.holiday.repository.HolidayRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
@@ -18,10 +20,16 @@ import javax.xml.parsers.DocumentBuilder
 class GetHolidayService(
     @Value("\${holiday.api.url}") private val holidayUrl: String,
     @Value("\${holiday.api.key}") private val holidayKey: String,
+    private val holidayRepository: HolidayRepository
 ) {
     private val restTemplate = RestTemplate()
 
-    fun getHolidays(year: Int): List<LocalDate> {
+    fun updateHolidays(year: Int) {
+        val holidays = getHolidaysFromApi(year)
+        holidayRepository.saveAll(holidays)
+    }
+
+    private fun getHolidaysFromApi(year: Int): List<Holiday> {
         val url = "$holidayUrl?serviceKey=$holidayKey&solYear=$year&numOfRows=100"
         val response = restTemplate.getForObject<String>(url)
 
@@ -33,11 +41,13 @@ class GetHolidayService(
         return (0 until nodeList.length).map { i ->
             val item = nodeList.item(i) as Element
             val locdate = item.getElementsByTagName("locdate").item(0).textContent
-            LocalDate.parse(locdate, DateTimeFormatter.BASIC_ISO_DATE)
+            val dateName = item.getElementsByTagName("dateName").item(0).textContent
+            val date = LocalDate.parse(locdate, DateTimeFormatter.BASIC_ISO_DATE)
+            Holiday(date, dateName)
         }
     }
 
     fun isHoliday(date: LocalDate): Boolean {
-        return getHolidays(date.year).contains(date)
+        return holidayRepository.existsById(date)
     }
 }
