@@ -11,7 +11,6 @@ import java.io.StringReader
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.xml.parsers.DocumentBuilderFactory
-
 import org.w3c.dom.Element
 import org.w3c.dom.NodeList
 import javax.xml.parsers.DocumentBuilder
@@ -43,11 +42,11 @@ class GetHolidayService(
             val locdate = item.getElementsByTagName("locdate").item(0).textContent
             val dateName = item.getElementsByTagName("dateName").item(0).textContent
             val date = LocalDate.parse(locdate, DateTimeFormatter.BASIC_ISO_DATE)
-            Holiday(date, dateName)
+            Holiday(date = date, name = dateName)
         }
     }
 
     fun isHoliday(date: LocalDate): Boolean {
-        return holidayRepository.existsById(date)
+        return holidayRepository.existsByDate(date)
     }
 }

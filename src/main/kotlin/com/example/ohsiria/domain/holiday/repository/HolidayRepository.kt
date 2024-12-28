@@ -8,4 +8,6 @@ import java.time.LocalDate
 @Repository
 interface HolidayRepository : JpaRepository<Holiday, LocalDate> {
     fun findByDateBetween(startDate: LocalDate, endDate: LocalDate): List<Holiday>
+
+    fun existsByDate(date: LocalDate): Boolean
 }
