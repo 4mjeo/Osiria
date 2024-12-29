@@ -3,6 +3,7 @@ package com.example.ohsiria.domain.manager.presentation
 import com.example.ohsiria.domain.manager.presentation.dto.response.CompanyDetailResponse
 import com.example.ohsiria.domain.manager.presentation.dto.response.CompanyListResponse
 import com.example.ohsiria.domain.manager.presentation.dto.request.CreateCompanyAccountRequest
+import com.example.ohsiria.domain.manager.presentation.dto.response.CreateCompanyResponse
 import com.example.ohsiria.domain.manager.service.CreateCompanyAccountService
 import com.example.ohsiria.domain.manager.service.QueryCompanyDetailService
 import com.example.ohsiria.domain.manager.service.QueryCompanyListService
@@ -17,9 +18,8 @@ class ManagerController(
     private val queryCompanyListService: QueryCompanyListService,
 ) {
     @PostMapping
-    fun createCompanyAccount(@RequestBody request: CreateCompanyAccountRequest) {
-        createCompanyAccountService.execute(request)
-    }
+    fun createCompanyAccount(@RequestBody request: CreateCompanyAccountRequest): CreateCompanyResponse
+        = createCompanyAccountService.execute(request)
 
     @GetMapping("/{company-id}")
     fun getCompanyDetails(@PathVariable("company-id") companyId: UUID): CompanyDetailResponse

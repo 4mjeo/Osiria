@@ -4,6 +4,7 @@ import com.example.ohsiria.domain.company.entity.Company
 import com.example.ohsiria.domain.company.exception.AlreadyExistingAccountException
 import com.example.ohsiria.domain.company.repository.CompanyRepository
 import com.example.ohsiria.domain.manager.presentation.dto.request.CreateCompanyAccountRequest
+import com.example.ohsiria.domain.manager.presentation.dto.response.CreateCompanyResponse
 import com.example.ohsiria.domain.user.entity.User
 import com.example.ohsiria.domain.user.entity.UserType
 import com.example.ohsiria.domain.user.repository.UserRepository
@@ -19,7 +20,7 @@ class CreateCompanyAccountService(
 ) {
 
     @Transactional
-    fun execute(request: CreateCompanyAccountRequest) {
+    fun execute(request: CreateCompanyAccountRequest): CreateCompanyResponse {
         if (userRepository.existsByAccountId(request.accountId)) throw AlreadyExistingAccountException
 
         val user = User(
@@ -32,5 +33,7 @@ class CreateCompanyAccountService(
 
         val company = Company(user = user)
         companyRepository.save(company)
+
+        return CreateCompanyResponse(companyId = company.id!!)
     }
 }
