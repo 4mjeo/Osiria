@@ -5,7 +5,7 @@ import com.example.ohsiria.domain.room.entity.RoomType
 import java.time.LocalDate
 
 interface ReservationRepositoryCustom {
-    fun existsByDateRangeAndRoom(startDate: LocalDate, endDate: LocalDate, roomType: RoomType): Boolean
-
     fun countDaysByCompanyAndDateRangeAndType(company: Company, startDate: LocalDate, endDate: LocalDate): Long
+
+    fun existsActiveReservationByDateRangeAndRoom(startDate: LocalDate, endDate: LocalDate, roomType: RoomType): Boolean
 }

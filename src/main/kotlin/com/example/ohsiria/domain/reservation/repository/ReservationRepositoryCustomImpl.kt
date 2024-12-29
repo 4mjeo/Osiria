@@ -13,14 +13,15 @@ class ReservationRepositoryCustomImpl(
     private val queryFactory: JPAQueryFactory
 ) : ReservationRepositoryCustom {
 
-    override fun existsByDateRangeAndRoom(startDate: LocalDate, endDate: LocalDate, roomType: RoomType): Boolean {
+    override fun existsActiveReservationByDateRangeAndRoom(startDate: LocalDate, endDate: LocalDate, roomType: RoomType): Boolean {
         return queryFactory
             .selectOne()
             .from(reservation)
             .where(
                 reservation.startDate.loe(endDate),
                 reservation.endDate.goe(startDate),
-                reservation.roomType.eq(roomType)
+                reservation.roomType.eq(roomType),
+                reservation.isCancel.eq(false)
             )
             .fetchFirst() != null
     }

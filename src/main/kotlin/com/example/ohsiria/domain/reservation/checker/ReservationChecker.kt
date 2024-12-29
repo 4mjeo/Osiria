@@ -23,7 +23,7 @@ class ReservationChecker(
     }
 
     fun checkReservationConflict(startDate: LocalDate, endDate: LocalDate, roomType: RoomType) {
-        if (reservationRepositoryCustom.existsByDateRangeAndRoom(startDate, endDate, roomType))
+        if (reservationRepositoryCustom.existsActiveReservationByDateRangeAndRoom(startDate, endDate, roomType))
             throw ReservationConflictException
     }
 
