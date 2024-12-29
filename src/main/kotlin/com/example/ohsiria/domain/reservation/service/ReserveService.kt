@@ -6,8 +6,8 @@ import com.example.ohsiria.domain.holiday.repository.HolidayRepository
 import com.example.ohsiria.domain.reservation.checker.ReservationChecker
 import com.example.ohsiria.domain.reservation.entity.Reservation
 import com.example.ohsiria.domain.reservation.exception.ShortageRemainingDaysException
-import com.example.ohsiria.domain.reservation.presentation.dto.ReserveRequest
-import com.example.ohsiria.domain.reservation.presentation.dto.ReserveResponse
+import com.example.ohsiria.domain.reservation.presentation.dto.request.ReserveRequest
+import com.example.ohsiria.domain.reservation.presentation.dto.response.ReserveResponse
 import com.example.ohsiria.domain.reservation.repository.ReservationRepository
 import com.example.ohsiria.global.common.facade.UserFacade
 import org.springframework.stereotype.Service

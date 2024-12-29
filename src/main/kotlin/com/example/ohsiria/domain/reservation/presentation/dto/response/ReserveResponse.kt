@@ -1,4 +1,4 @@
-package com.example.ohsiria.domain.reservation.presentation.dto
+package com.example.ohsiria.domain.reservation.presentation.dto.response
 
 import java.util.UUID
 

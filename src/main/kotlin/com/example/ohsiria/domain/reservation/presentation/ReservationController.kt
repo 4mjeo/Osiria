@@ -1,12 +1,15 @@
 package com.example.ohsiria.domain.reservation.presentation
 
-import com.example.ohsiria.domain.reservation.presentation.dto.ReserveRequest
-import com.example.ohsiria.domain.reservation.presentation.dto.ReserveResponse
+import com.example.ohsiria.domain.reservation.presentation.dto.request.ReserveRequest
+import com.example.ohsiria.domain.reservation.presentation.dto.response.ReservationResponse
+import com.example.ohsiria.domain.reservation.presentation.dto.response.ReserveResponse
 import com.example.ohsiria.domain.reservation.service.CancelReservationService
+import com.example.ohsiria.domain.reservation.service.QueryMyReservationService
 import com.example.ohsiria.domain.reservation.service.ReserveService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,6 +25,7 @@ import java.util.UUID
 class ReservationController(
     private val reserveService: ReserveService,
     private val cancelReservationService: CancelReservationService,
+    private val queryMyReservationService: QueryMyReservationService,
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -32,4 +36,8 @@ class ReservationController(
     fun cancel(@PathVariable("reservation-id") reservationId: UUID) {
         cancelReservationService.execute(reservationId)
     }
+
+    @GetMapping("/company")
+    fun queryMyReservation(): List<ReservationResponse> =
+        queryMyReservationService.execute()
 }

@@ -1,4 +1,4 @@
-package com.example.ohsiria.domain.reservation.presentation.dto
+package com.example.ohsiria.domain.reservation.presentation.dto.request
 
 import com.example.ohsiria.domain.room.entity.RoomType
 import org.jetbrains.annotations.NotNull
