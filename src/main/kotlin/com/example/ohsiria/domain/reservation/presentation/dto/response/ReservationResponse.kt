@@ -25,3 +25,29 @@ data class ReservationResponse(
             )
     }
 }
+
+data class ManagerReservationResponse(
+    val id: UUID,
+    val startDate: LocalDate,
+    val endDate: LocalDate,
+    val name: String,
+    val phoneNumber: String,
+    val roomType: RoomType,
+    val isCancel: Boolean,
+    val companyName: String
+) {
+    companion object {
+        fun from(reservation: Reservation): ManagerReservationResponse {
+            return ManagerReservationResponse(
+                id = reservation.id!!,
+                startDate = reservation.startDate,
+                endDate = reservation.endDate,
+                name = reservation.name,
+                phoneNumber = reservation.phoneNumber,
+                roomType = reservation.roomType,
+                isCancel = reservation.isCancel,
+                companyName = reservation.company.user.name
+            )
+        }
+    }
+}

@@ -1,9 +1,11 @@
 package com.example.ohsiria.domain.reservation.presentation
 
 import com.example.ohsiria.domain.reservation.presentation.dto.request.ReserveRequest
+import com.example.ohsiria.domain.reservation.presentation.dto.response.ManagerReservationResponse
 import com.example.ohsiria.domain.reservation.presentation.dto.response.ReservationResponse
 import com.example.ohsiria.domain.reservation.presentation.dto.response.ReserveResponse
 import com.example.ohsiria.domain.reservation.service.CancelReservationService
+import com.example.ohsiria.domain.reservation.service.QueryAllReservationsService
 import com.example.ohsiria.domain.reservation.service.QueryMyReservationService
 import com.example.ohsiria.domain.reservation.service.ReserveService
 import jakarta.validation.Valid
@@ -26,6 +28,7 @@ class ReservationController(
     private val reserveService: ReserveService,
     private val cancelReservationService: CancelReservationService,
     private val queryMyReservationService: QueryMyReservationService,
+    private val queryAllReservationsService: QueryAllReservationsService,
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -40,4 +43,8 @@ class ReservationController(
     @GetMapping("/company")
     fun queryMyReservation(): List<ReservationResponse> =
         queryMyReservationService.execute()
+
+    @GetMapping("/manager")
+    fun queryAllReservation(): List<ManagerReservationResponse> =
+        queryAllReservationsService.execute()
 }
