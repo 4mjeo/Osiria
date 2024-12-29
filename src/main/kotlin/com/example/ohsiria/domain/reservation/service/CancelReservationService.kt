@@ -45,7 +45,6 @@ class CancelReservationService(
         company.returnRemainingDays(dates, holidays)
 
         reservation.cancel()
-        company.updateRemainingDays(dates)
 
         companyRepository.save(company)
         reservationRepository.save(reservation)
