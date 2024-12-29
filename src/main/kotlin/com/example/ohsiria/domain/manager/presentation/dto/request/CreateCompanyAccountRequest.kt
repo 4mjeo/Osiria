@@ -1,4 +1,4 @@
-package com.example.ohsiria.domain.manager.presentation.dto
+package com.example.ohsiria.domain.manager.presentation.dto.request
 
 import org.jetbrains.annotations.NotNull
 

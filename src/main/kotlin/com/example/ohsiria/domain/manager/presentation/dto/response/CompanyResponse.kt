@@ -1,4 +1,4 @@
-package com.example.ohsiria.domain.manager.presentation.dto
+package com.example.ohsiria.domain.manager.presentation.dto.response
 
 import com.example.ohsiria.domain.company.entity.Company
 import com.example.ohsiria.domain.reservation.entity.Reservation

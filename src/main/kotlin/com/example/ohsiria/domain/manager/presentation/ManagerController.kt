@@ -1,8 +1,8 @@
 package com.example.ohsiria.domain.manager.presentation
 
-import com.example.ohsiria.domain.manager.presentation.dto.CompanyDetailResponse
-import com.example.ohsiria.domain.manager.presentation.dto.CompanyListResponse
-import com.example.ohsiria.domain.manager.presentation.dto.CreateCompanyAccountRequest
+import com.example.ohsiria.domain.manager.presentation.dto.response.CompanyDetailResponse
+import com.example.ohsiria.domain.manager.presentation.dto.response.CompanyListResponse
+import com.example.ohsiria.domain.manager.presentation.dto.request.CreateCompanyAccountRequest
 import com.example.ohsiria.domain.manager.service.CreateCompanyAccountService
 import com.example.ohsiria.domain.manager.service.QueryCompanyDetailService
 import com.example.ohsiria.domain.manager.service.QueryCompanyListService
