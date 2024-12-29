@@ -1,21 +1,31 @@
 package com.example.ohsiria.domain.manager.presentation
 
+import com.example.ohsiria.domain.manager.presentation.dto.CompanyDetailResponse
+import com.example.ohsiria.domain.manager.presentation.dto.CompanyListResponse
 import com.example.ohsiria.domain.manager.presentation.dto.CreateCompanyAccountRequest
 import com.example.ohsiria.domain.manager.service.CreateCompanyAccountService
-import mu.KotlinLogging
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import com.example.ohsiria.domain.manager.service.QueryCompanyDetailService
+import com.example.ohsiria.domain.manager.service.QueryCompanyListService
+import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @RestController
 @RequestMapping("/manager")
 class ManagerController(
-    private val createCompanyAccountService: CreateCompanyAccountService
+    private val createCompanyAccountService: CreateCompanyAccountService,
+    private val queryCompanyDetailService: QueryCompanyDetailService,
+    private val queryCompanyListService: QueryCompanyListService,
 ) {
     @PostMapping
     fun createCompanyAccount(@RequestBody request: CreateCompanyAccountRequest) {
         createCompanyAccountService.execute(request)
     }
+
+    @GetMapping("/{company-id}")
+    fun getCompanyDetails(@PathVariable("company-id") companyId: UUID): CompanyDetailResponse
+        = queryCompanyDetailService.execute(companyId)
+
+    @GetMapping
+    fun getCompanyList(): List<CompanyListResponse>
+        = queryCompanyListService.execute()
 }
