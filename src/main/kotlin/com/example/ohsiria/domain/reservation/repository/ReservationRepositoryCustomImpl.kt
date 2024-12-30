@@ -1,6 +1,7 @@
 package com.example.ohsiria.domain.reservation.repository
 
 import com.example.ohsiria.domain.company.entity.Company
+import com.example.ohsiria.domain.reservation.entity.ReservationStatus
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -21,7 +22,7 @@ class ReservationRepositoryCustomImpl(
                 reservation.startDate.loe(endDate),
                 reservation.endDate.goe(startDate),
                 reservation.roomType.eq(roomType),
-                reservation.isCancel.eq(false)
+                reservation.status.`in`(ReservationStatus.WAITING, ReservationStatus.RESERVED)
             )
             .fetchFirst() != null
     }
@@ -37,6 +38,7 @@ class ReservationRepositoryCustomImpl(
                 reservation.company.eq(company),
                 reservation.startDate.loe(endDate),
                 reservation.endDate.goe(startDate),
+                reservation.status.`in`(ReservationStatus.RESERVED, ReservationStatus.WAITING)
             )
             .fetchCount()
     }

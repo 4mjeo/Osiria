@@ -2,6 +2,8 @@ package com.example.ohsiria.domain.reservation.service
 
 import com.example.ohsiria.domain.company.repository.CompanyRepository
 import com.example.ohsiria.domain.holiday.repository.HolidayRepository
+import com.example.ohsiria.domain.reservation.entity.ReservationStatus
+import com.example.ohsiria.domain.reservation.exception.AlreadyCanceledException
 import com.example.ohsiria.domain.reservation.exception.InvalidCancellationException
 import com.example.ohsiria.domain.reservation.exception.ReservationNotFoundException
 import com.example.ohsiria.domain.reservation.repository.ReservationRepository
@@ -32,6 +34,9 @@ class CancelReservationService(
 
         if (LocalDate.now().plusDays(3).isAfter(reservation.startDate))
             throw InvalidCancellationException
+
+        if (reservation.status == ReservationStatus.CANCELED)
+            throw AlreadyCanceledException
 
         val company = reservation.company
         val dates = reservation.startDate.datesUntil(reservation.endDate.plusDays(1))

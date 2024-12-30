@@ -16,9 +16,9 @@ class Reservation(
     headCount: Int,
     phoneNumber: String,
     name: String,
-    isCancel: Boolean = false,
     company: Company,
     roomType: RoomType,
+    status: ReservationStatus = ReservationStatus.WAITING,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,10 +45,6 @@ class Reservation(
     var name: String = name
         protected set
 
-    @Column(name = "is_cancel", columnDefinition = "BOOLEAN", nullable = false)
-    var isCancel: Boolean = isCancel
-        protected set
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     var company: Company = company
@@ -59,7 +55,16 @@ class Reservation(
     var roomType: RoomType = roomType
         protected set
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", columnDefinition = "VARCHAR(8)", nullable = false)
+    var status: ReservationStatus = ReservationStatus.WAITING
+        protected set
+
     fun cancel() {
-        this.isCancel = true
+        this.status = ReservationStatus.CANCELED
+    }
+
+    fun confirm() {
+        this.status = ReservationStatus.RESERVED
     }
 }
