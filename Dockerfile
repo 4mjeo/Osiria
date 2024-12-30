@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk as builder
+FROM openjdk:17-jdk AS builder
 ARG JAR_FILE=build/libs/*.jar
 ADD ${JAR_FILE} app.jar
 
