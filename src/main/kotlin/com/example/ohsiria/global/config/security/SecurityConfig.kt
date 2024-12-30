@@ -47,6 +47,7 @@ class SecurityConfig(
                 authorize.requestMatchers(HttpMethod.GET, "/reservation/manager").hasAuthority(MANAGER.name)
                 authorize.requestMatchers(HttpMethod.GET, "/company").hasAuthority(COMPANY.name)
                 authorize.requestMatchers(HttpMethod.GET, "/manager/**").hasAuthority(MANAGER.name)
+                authorize.requestMatchers(HttpMethod.PATCH, "/reservation/confirm/{reservation-id}").hasAuthority(MANAGER.name)
 
                 authorize.anyRequest().authenticated()
             }

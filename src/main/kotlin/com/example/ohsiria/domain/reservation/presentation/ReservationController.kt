@@ -1,13 +1,11 @@
 package com.example.ohsiria.domain.reservation.presentation
 
+import com.example.ohsiria.domain.reservation.entity.ReservationStatus
 import com.example.ohsiria.domain.reservation.presentation.dto.request.ReserveRequest
 import com.example.ohsiria.domain.reservation.presentation.dto.response.ManagerReservationResponse
 import com.example.ohsiria.domain.reservation.presentation.dto.response.ReservationResponse
 import com.example.ohsiria.domain.reservation.presentation.dto.response.ReserveResponse
-import com.example.ohsiria.domain.reservation.service.CancelReservationService
-import com.example.ohsiria.domain.reservation.service.QueryAllReservationsService
-import com.example.ohsiria.domain.reservation.service.QueryMyReservationService
-import com.example.ohsiria.domain.reservation.service.ReserveService
+import com.example.ohsiria.domain.reservation.service.*
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
@@ -29,6 +28,7 @@ class ReservationController(
     private val cancelReservationService: CancelReservationService,
     private val queryMyReservationService: QueryMyReservationService,
     private val queryAllReservationsService: QueryAllReservationsService,
+    private val confirmReservationService: ConfirmReservationService,
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,4 +47,12 @@ class ReservationController(
     @GetMapping("/manager")
     fun queryAllReservation(): List<ManagerReservationResponse> =
         queryAllReservationsService.execute()
+
+    @PatchMapping("/confirm/{reservation-id}")
+    fun confirmReservation(
+        @PathVariable("reservation-id") reservationId: UUID,
+        @RequestParam newStatus: ReservationStatus
+    ) {
+        confirmReservationService.execute(reservationId, newStatus)
+    }
 }
