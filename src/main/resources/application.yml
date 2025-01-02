@@ -9,7 +9,8 @@ spring:
       ddl-auto: update
     properties:
       show_sql: true
-      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
 jwt:
   secret-key: ${JWT_SECRET}
