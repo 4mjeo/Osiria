@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: rlaaudwls1!
-    url: jdbc:mysql://172.18.0.2:3306/osiria?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://mysql:3306/osiria?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
   jpa:
     hibernate:
       ddl-auto: update
