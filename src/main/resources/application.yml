@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: rlaaudwls1!
-    url: jdbc:mysql://mysql:3306/osiria?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://${DB_URL:localhost}:3306/osiria?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,7 +14,7 @@ spring:
   data:
     redis:
       port: 6379
-      host: redis
+      host: ${REDIS_HOST:localhost}
 
 jwt:
   secret-key: jkfdlajdlsjfasjflsajffdjsafsjasfsfasfsfasfsf
