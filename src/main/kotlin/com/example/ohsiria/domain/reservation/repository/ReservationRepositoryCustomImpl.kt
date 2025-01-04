@@ -33,13 +33,14 @@ class ReservationRepositoryCustomImpl(
         endDate: LocalDate
     ): Long {
         return queryFactory
-            .selectFrom(reservation)
+            .select(reservation.count())
+            .from(reservation)
             .where(
                 reservation.company.eq(company),
                 reservation.startDate.loe(endDate),
                 reservation.endDate.goe(startDate),
                 reservation.status.`in`(ReservationStatus.RESERVED, ReservationStatus.WAITING)
             )
-            .fetchCount()
+            .fetchOne() ?: 0L
     }
 }
