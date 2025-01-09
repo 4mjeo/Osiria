@@ -15,6 +15,12 @@ spring:
     redis:
       port: 6379
       host: ${REDIS_HOST}
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0B
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 jwt:
   secret-key: jkfdlajdlsjfasjflsajffdjsafsjasfsfasfsfasfsf
@@ -25,3 +31,11 @@ holiday:
   api:
     url: http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo
     key: XeH%2F%2BVCjgbP3vptu69aRe5qVXni4AjKklKptgFTbmD1wk9d084NTrJksblMg%2FgxzgrT6JlmA%2FAGXHmwM7thJYA%3D%3D\=
+
+cloud:
+  aws:
+    s3:
+      bucket: ${BUCKET}
+      access-key: ${IAM_ACCESS}
+      secret-key: ${IAM_SECRET}
+      region: ap-northeast-2
