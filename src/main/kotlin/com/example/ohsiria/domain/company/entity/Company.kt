@@ -1,5 +1,6 @@
 package com.example.ohsiria.domain.company.entity
 
+import com.example.ohsiria.domain.holiday.repository.HolidayRepository
 import com.example.ohsiria.domain.user.entity.User
 import jakarta.persistence.*
 import java.time.DayOfWeek
@@ -50,13 +51,20 @@ class Company(
         return remainWeekday >= weekdayCount && remainWeekend >= weekendCount
     }
 
-    fun returnRemainingDays(dates: List<Pair<LocalDate, Boolean>>, holidays: Set<LocalDate>) {
-        dates.forEach { (date, isWeekend) ->
-            if (isWeekend || holidays.contains(date)) {
+    fun returnRemainingDays(dates: List<Pair<LocalDate, Boolean>>) {
+        dates.forEach { (date, isHoliday) ->
+            if (date.dayOfWeek in listOf(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY) || isHoliday) {
                 remainWeekend++
             } else {
                 remainWeekday++
             }
         }
+    }
+
+    fun getDatesWithHolidayInfo(startDate: LocalDate, endDate: LocalDate, holidayRepository: HolidayRepository): List<Pair<LocalDate, Boolean>> {
+        val holidays = holidayRepository.findByDateBetween(startDate, endDate)
+        return startDate.datesUntil(endDate.plusDays(1))
+            .map { it to holidays.any { holiday -> holiday.date == it } }
+            .toList()
     }
 }

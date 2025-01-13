@@ -12,9 +12,8 @@ import com.example.ohsiria.global.config.error.exception.PermissionDeniedExcepti
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.DayOfWeek
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 @Service
 class CancelReservationService(
@@ -39,15 +38,11 @@ class CancelReservationService(
             throw AlreadyCanceledException
 
         val company = reservation.company
-        val dates = reservation.startDate.datesUntil(reservation.endDate.plusDays(1))
-            .map { it to (it.dayOfWeek in listOf(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)) }
-            .toList()
 
-        val holidays = holidayRepository.findByDateBetween(reservation.startDate, reservation.endDate)
-            .map { it.date }
-            .toSet()
-
-        company.returnRemainingDays(dates, holidays)
+        if (reservation.status == ReservationStatus.RESERVED) {
+            val dates = company.getDatesWithHolidayInfo(reservation.startDate, reservation.endDate, holidayRepository)
+            company.returnRemainingDays(dates)
+        }
 
         reservation.cancel()
 

@@ -30,7 +30,7 @@ jwt:
 holiday:
   api:
     url: http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo
-    key: XeH%2F%2BVCjgbP3vptu69aRe5qVXni4AjKklKptgFTbmD1wk9d084NTrJksblMg%2FgxzgrT6JlmA%2FAGXHmwM7thJYA%3D%3D\=
+    key: XeH%2F%2BVCjgbP3vptu69aRe5qVXni4AjKklKptgFTbmD1wk9d084NTrJksblMg%2FgxzgrT6JlmA%2FAGXHmwM7thJYA%3D%3D
 
 cloud:
   aws:
