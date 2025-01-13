@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: 4mjeo
+          password: dckr_pat_16sEnV04xo4g8JbzfjXuuRP5C7s
+
+      - name: Build and Push Docker image
+        run: |
+          docker buildx build --platform linux/amd64 -t 4mjeo/osiria .
+          docker push 4mjeo/osiria
+
+      - name: Connect EC2 & Deploy Docker Imgae
+        uses: appleboy/ssh-action@master
+        with:
+          host: 43.203.50.105
+          port: '8080'
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd Osiria
+            docker pull 4mjeo/osiria
+            docker compose up -d
