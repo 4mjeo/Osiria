@@ -17,15 +17,7 @@ jobs:
           java-version: 17
 
       - name: Build with Gradle
-        run: ./gradlew build
-        env:
-          SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: rlaaudwls1!
-          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/osiria?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
-          REDIS_HOST: localhost
-          BUCKET: osiria
-          IAM_ACCESS: AKIA5GUZEBME73IZ32EJ
-          IAM_SECRET: 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
+        run: ./gradlew build --debug
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
