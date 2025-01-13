@@ -34,7 +34,7 @@ class Company(
         protected set
 
     fun updateRemainingDays(dates: List<Pair<LocalDate, Boolean>>) {
-        dates.forEach { (date, isHoliday) ->
+        dates.dropLast(1).forEach { (date, isHoliday) ->
             if (date.dayOfWeek in listOf(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY) || isHoliday) {
                 remainWeekend = (remainWeekend - 1).coerceAtLeast(0)
             } else {
@@ -44,7 +44,7 @@ class Company(
     }
 
     fun hasEnoughRemainingDays(dates: List<Pair<LocalDate, Boolean>>): Boolean {
-        val (weekdayCount, weekendCount) = dates.partition { (date, isHoliday) ->
+        val (weekdayCount, weekendCount) = dates.dropLast(1).partition { (date, isHoliday) ->
             date.dayOfWeek !in listOf(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY) && !isHoliday
         }.let { (weekdays, weekends) -> weekdays.size to weekends.size }
 
@@ -52,7 +52,7 @@ class Company(
     }
 
     fun returnRemainingDays(dates: List<Pair<LocalDate, Boolean>>) {
-        dates.forEach { (date, isHoliday) ->
+        dates.dropLast(1).forEach { (date, isHoliday) ->
             if (date.dayOfWeek in listOf(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY) || isHoliday) {
                 remainWeekend++
             } else {
