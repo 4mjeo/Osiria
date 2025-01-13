@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:asdf}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/osiria?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true}
   jpa:
     hibernate:
       ddl-auto: update
@@ -35,7 +35,7 @@ holiday:
 cloud:
   aws:
     s3:
-      bucket: ${BUCKET}
-      access-key: ${IAM_ACCESS}
-      secret-key: ${IAM_SECRET}
+      bucket: ${BUCKET:asdf}
+      access-key: ${IAM_ACCESS:safs}
+      secret-key: ${IAM_SECRET:ddd}
       region: ap-northeast-2
