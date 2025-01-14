@@ -40,7 +40,6 @@ class ReserveService(
         val reservation = Reservation(
             startDate = request.startDate,
             endDate = request.endDate,
-            headCount = request.headCount,
             phoneNumber = request.phoneNumber,
             name = request.name,
             company = company,

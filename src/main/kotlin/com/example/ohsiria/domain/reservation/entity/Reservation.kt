@@ -13,7 +13,6 @@ class Reservation(
     id: UUID? = null,
     startDate: LocalDate,
     endDate: LocalDate,
-    headCount: Int,
     phoneNumber: String,
     name: String,
     company: Company,
@@ -31,10 +30,6 @@ class Reservation(
 
     @Column(name = "end_date", columnDefinition = "DATE", nullable = false)
     var endDate: LocalDate = endDate
-        protected set
-
-    @Column(name = "head_count", columnDefinition = "INT", nullable = false)
-    var headCount: Int = headCount
         protected set
 
     @Column(name = "phone_number", columnDefinition = "VARCHAR(12)", nullable = false)

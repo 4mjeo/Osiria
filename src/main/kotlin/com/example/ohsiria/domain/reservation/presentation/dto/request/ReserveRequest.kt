@@ -12,9 +12,6 @@ data class ReserveRequest(
     val endDate: LocalDate,
 
     @field:NotNull
-    val headCount: Int,
-
-    @field:NotNull
     val phoneNumber: String,
 
     @field:NotNull
