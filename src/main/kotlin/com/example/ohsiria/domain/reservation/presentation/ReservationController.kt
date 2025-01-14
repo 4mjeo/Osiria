@@ -41,8 +41,9 @@ class ReservationController(
     }
 
     @GetMapping("/company")
-    fun queryMyReservation(): List<ReservationResponse> =
-        queryMyReservationService.execute()
+    fun queryMyReservation(
+        @RequestParam(defaultValue = "false") isHistory: Boolean
+    ): List<ReservationResponse> = queryMyReservationService.execute(isHistory)
 
     @GetMapping("/manager")
     fun queryAllReservation(): List<ManagerReservationResponse> =

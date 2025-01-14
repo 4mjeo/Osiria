@@ -2,6 +2,8 @@ package com.example.ohsiria.domain.reservation.checker
 
 import com.example.ohsiria.domain.company.entity.Company
 import com.example.ohsiria.domain.company.exception.CompanyMismatchException
+import com.example.ohsiria.domain.reservation.entity.Reservation
+import com.example.ohsiria.domain.reservation.entity.ReservationStatus
 import com.example.ohsiria.domain.reservation.exception.InvalidDateRangeException
 import com.example.ohsiria.domain.reservation.exception.ReservationConflictException
 import com.example.ohsiria.domain.reservation.repository.ReservationRepositoryCustom
@@ -37,5 +39,14 @@ class ReservationChecker(
             ChronoUnit.DAYS.between(today, startDate) < 7 ->
                 throw InvalidDateRangeException
         }
+    }
+
+    fun isHistory(reservation: Reservation, currentDate: LocalDate): Boolean {
+        return reservation.status == ReservationStatus.CANCELED || reservation.endDate < currentDate
+    }
+
+    fun isCurrent(reservation: Reservation, currentDate: LocalDate): Boolean {
+        return (reservation.status == ReservationStatus.WAITING || reservation.status == ReservationStatus.RESERVED)
+                && reservation.endDate >= currentDate
     }
 }
