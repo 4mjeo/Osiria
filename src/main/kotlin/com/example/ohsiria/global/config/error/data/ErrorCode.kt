@@ -14,6 +14,7 @@ enum class ErrorCode(
     INVALID_DATE_RANGE(HttpStatus.BAD_REQUEST, "유효하지 않은 기간입니다."),
     SHORTAGE_REMAINING_DAYS(HttpStatus.BAD_REQUEST, "잔여기간이 부족합니다."),
     INVALID_CANCELLATION(HttpStatus.BAD_REQUEST, "예약 3일 전부터는 취소할 수 없습니다."),
+    INVALID_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "지원하지 않는 파일 확장자입니다."),
 
     //401
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않는 토큰입니다."),
