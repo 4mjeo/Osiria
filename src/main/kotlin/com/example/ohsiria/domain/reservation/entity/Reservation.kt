@@ -4,6 +4,8 @@ import com.example.ohsiria.domain.company.entity.Company
 import com.example.ohsiria.domain.room.entity.RoomType
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import java.time.LocalDate
 import java.util.*
 
@@ -47,6 +49,7 @@ class Reservation(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "room_type", columnDefinition = "VARCHAR(10)", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     var roomType: RoomType = roomType
         protected set
 

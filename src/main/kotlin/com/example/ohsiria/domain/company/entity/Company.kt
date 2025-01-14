@@ -1,6 +1,7 @@
 package com.example.ohsiria.domain.company.entity
 
 import com.example.ohsiria.domain.holiday.repository.HolidayRepository
+import com.example.ohsiria.domain.reservation.entity.Reservation
 import com.example.ohsiria.domain.user.entity.User
 import jakarta.persistence.*
 import java.time.DayOfWeek
@@ -27,11 +28,14 @@ class Company(
     var remainWeekend = remainWeekend
         protected set
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "user_id", nullable = false)
     @MapsId
     var user: User = user
         protected set
+
+    @OneToMany(mappedBy = "company", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val reservations: MutableList<Reservation> = mutableListOf()
 
     fun updateRemainingDays(dates: List<Pair<LocalDate, Boolean>>) {
         dates.dropLast(1).forEach { (date, isHoliday) ->
