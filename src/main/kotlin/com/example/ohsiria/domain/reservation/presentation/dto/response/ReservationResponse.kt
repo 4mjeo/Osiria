@@ -33,6 +33,7 @@ data class ManagerReservationResponse(
     val endDate: LocalDate,
     val name: String,
     val phoneNumber: String,
+    val accountNumber: String,
     val roomType: RoomType,
     val status: ReservationStatus,
     val companyName: String
@@ -45,6 +46,7 @@ data class ManagerReservationResponse(
                 endDate = reservation.endDate,
                 name = reservation.name,
                 phoneNumber = reservation.phoneNumber,
+                accountNumber = reservation.accountNumber,
                 roomType = reservation.roomType,
                 status = reservation.status,
                 companyName = reservation.company.user.name

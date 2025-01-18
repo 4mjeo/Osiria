@@ -18,5 +18,8 @@ data class ReserveRequest(
     val name: String,
 
     @field:NotNull
+    val accountNumber: String,
+
+    @field:NotNull
     val roomType: RoomType
 )

@@ -42,6 +42,7 @@ class ReserveService(
             endDate = request.endDate,
             phoneNumber = request.phoneNumber,
             name = request.name,
+            accountNumber = request.accountNumber,
             company = company,
             roomType = request.roomType,
             status = ReservationStatus.WAITING

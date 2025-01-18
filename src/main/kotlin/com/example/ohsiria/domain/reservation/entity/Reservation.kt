@@ -17,6 +17,7 @@ class Reservation(
     endDate: LocalDate,
     phoneNumber: String,
     name: String,
+    accountNumber: String,
     company: Company,
     roomType: RoomType,
     status: ReservationStatus = ReservationStatus.WAITING,
@@ -40,6 +41,10 @@ class Reservation(
 
     @Column(name = "name", columnDefinition = "VARCHAR(4)", nullable = false)
     var name: String = name
+        protected set
+
+    @Column(name = "account_number", columnDefinition = "VARCHAR(14)", nullable = false)
+    var accountNumber: String = accountNumber
         protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
