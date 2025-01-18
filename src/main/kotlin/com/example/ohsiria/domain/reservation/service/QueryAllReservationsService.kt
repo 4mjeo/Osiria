@@ -4,14 +4,18 @@ import com.example.ohsiria.domain.reservation.presentation.dto.response.ManagerR
 import com.example.ohsiria.domain.reservation.repository.ReservationRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 @Service
 class QueryAllReservationsService(
     private val reservationRepository: ReservationRepository
 ) {
     @Transactional(readOnly = true)
-    fun execute(): List<ManagerReservationResponse> {
+    fun execute(date: LocalDate): List<ManagerReservationResponse> {
         return reservationRepository.findAll()
+            .filter { reservation ->
+                (reservation.startDate <= date && date <= reservation.endDate)
+            }
             .map { ManagerReservationResponse.from(it) }
     }
 }
