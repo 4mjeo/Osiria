@@ -31,7 +31,7 @@ class UploadFileService(
 
     @Transactional
     fun uploadFiles(files: List<MultipartFile>, roomNo: Long): FileUrlListResponse {
-        val room = roomRepository.findByRoomNo(roomNo) ?: throw RoomNotFoundException
+        val room = roomRepository.findByNumber(roomNo) ?: throw RoomNotFoundException
 
         val uploadedFiles = files.map { uploadFile(it, roomNo.toString()) }
 

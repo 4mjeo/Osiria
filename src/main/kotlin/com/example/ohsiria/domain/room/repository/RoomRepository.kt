@@ -7,5 +7,5 @@ import java.util.*
 
 @Repository
 interface RoomRepository: JpaRepository<Room, UUID?> {
-    fun findByRoomNo(roomNo: Long): Room?
+    fun findByNumber(number: Long): Room?
 }
