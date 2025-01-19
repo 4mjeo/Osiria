@@ -36,7 +36,16 @@ class Room(
     var attachments: MutableList<RoomAttachment> = mutableListOf()
         protected set
 
+    fun update(introduction: String?, guide: String?) {
+        introduction?.let { this.introduction = it }
+        guide?.let { this.guide = it }
+    }
+
     fun addAttachment(imageUrl: String) {
         attachments.add(RoomAttachment(room = this, imageUrl = imageUrl))
+    }
+
+    fun clearAttachments() {
+        attachments.clear()
     }
 }
