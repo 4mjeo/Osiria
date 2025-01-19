@@ -1,4 +1,4 @@
-package com.example.ohsiria.domain.room.presentation.dto
+package com.example.ohsiria.domain.room.presentation.dto.request
 
 data class RegisterRoomRequest(
     val number: Long,

@@ -1,7 +1,7 @@
 package com.example.ohsiria.domain.room.service
 
 import com.example.ohsiria.domain.room.exception.RoomNotFoundException
-import com.example.ohsiria.domain.room.presentation.dto.UpdateRoomRequest
+import com.example.ohsiria.domain.room.presentation.dto.request.UpdateRoomRequest
 import com.example.ohsiria.domain.room.repository.RoomRepository
 import com.example.ohsiria.domain.service.entity.RoomService
 import com.example.ohsiria.domain.service.entity.Service

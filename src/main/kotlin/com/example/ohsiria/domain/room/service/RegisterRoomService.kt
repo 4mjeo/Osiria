@@ -1,8 +1,8 @@
 package com.example.ohsiria.domain.room.service
 
 import com.example.ohsiria.domain.room.entity.Room
-import com.example.ohsiria.domain.room.presentation.dto.RegisterRoomRequest
-import com.example.ohsiria.domain.room.presentation.dto.RoomResponse
+import com.example.ohsiria.domain.room.presentation.dto.request.RegisterRoomRequest
+import com.example.ohsiria.domain.room.presentation.dto.response.RegisterRoomResponse
 import com.example.ohsiria.domain.room.repository.RoomRepository
 import com.example.ohsiria.domain.service.entity.RoomService
 import com.example.ohsiria.domain.service.entity.Service
@@ -17,7 +17,7 @@ class RegisterRoomService(
     private val roomServiceRepository: RoomServiceRepository
 ) {
     @Transactional
-    fun execute(request: RegisterRoomRequest): RoomResponse {
+    fun execute(request: RegisterRoomRequest): RegisterRoomResponse {
         val room = Room(
             number = request.number,
             introduction = request.introduction,
@@ -39,6 +39,6 @@ class RegisterRoomService(
             roomServiceRepository.saveAll(roomServices)
         }
 
-        return RoomResponse(roomId = savedRoom.id!!)
+        return RegisterRoomResponse(roomId = savedRoom.id!!)
     }
 }

@@ -49,6 +49,9 @@ class SecurityConfig(
                 authorize.requestMatchers(HttpMethod.PATCH, "/reservation/confirm/{reservation-id}").hasAuthority(MANAGER.name)
                 authorize.requestMatchers(HttpMethod.POST, "/file/**").hasAuthority(MANAGER.name)
                 authorize.requestMatchers(HttpMethod.POST, "/room/**").hasAuthority(MANAGER.name)
+                authorize.requestMatchers(HttpMethod.PATCH, "/room/**").hasAuthority(MANAGER.name)
+                authorize.requestMatchers(HttpMethod.DELETE, "/room/**").hasAuthority(MANAGER.name)
+                authorize.requestMatchers(HttpMethod.GET, "/room/**").permitAll()
 
                 authorize.anyRequest().authenticated()
             }
