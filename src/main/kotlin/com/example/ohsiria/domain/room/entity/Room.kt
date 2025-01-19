@@ -1,5 +1,6 @@
 package com.example.ohsiria.domain.room.entity
 
+import com.example.ohsiria.domain.service.entity.RoomService
 import jakarta.persistence.*
 import java.util.*
 

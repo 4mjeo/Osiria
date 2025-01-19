@@ -1,5 +1,6 @@
-package com.example.ohsiria.domain.room.entity
+package com.example.ohsiria.domain.service.entity
 
+import com.example.ohsiria.domain.room.entity.Room
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import java.util.*

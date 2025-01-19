@@ -20,7 +20,7 @@ class ReservationRepositoryCustomImpl(
             .where(
                 reservation.startDate.loe(endDate),
                 reservation.endDate.goe(startDate),
-//                reservation.room.eq(room),
+                reservation.room.eq(room),
                 reservation.status.`in`(ReservationStatus.WAITING, ReservationStatus.RESERVED)
             )
             .fetchFirst() != null

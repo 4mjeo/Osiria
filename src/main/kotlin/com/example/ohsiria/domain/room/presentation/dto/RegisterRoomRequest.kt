@@ -5,4 +5,5 @@ data class RegisterRoomRequest(
     val introduction: String,
     val guide: String,
     val attachments: List<String>?,
+    val serviceKeywords: List<String>?
 )

@@ -1,4 +1,4 @@
-package com.example.ohsiria.domain.room.entity
+package com.example.ohsiria.domain.service.entity
 
 import jakarta.persistence.*
 import java.util.UUID
