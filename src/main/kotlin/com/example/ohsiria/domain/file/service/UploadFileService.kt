@@ -8,10 +8,6 @@ import com.example.ohsiria.domain.file.entity.FileType
 import com.example.ohsiria.domain.file.exception.InvalidFileExtensionException
 import com.example.ohsiria.domain.file.presentation.dto.FileUrlListResponse
 import com.example.ohsiria.domain.file.presentation.dto.FileUrlResponse
-import com.example.ohsiria.domain.room.entity.RoomAttachment
-import com.example.ohsiria.domain.room.exception.RoomNotFoundException
-import com.example.ohsiria.domain.room.repository.RoomAttachmentRepository
-import com.example.ohsiria.domain.room.repository.RoomRepository
 import com.example.ohsiria.global.env.s3.S3Property
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,8 +18,6 @@ import java.io.ByteArrayInputStream
 class UploadFileService(
     private val s3Client: AmazonS3Client,
     private val s3Property: S3Property,
-    private val roomRepository: RoomRepository,
-    private val roomAttachmentRepository: RoomAttachmentRepository
 ) {
     companion object {
         const val URL_PREFIX = "https://%s.s3.%s.amazonaws.com/%s"
@@ -31,22 +25,12 @@ class UploadFileService(
 
     @Transactional
     fun uploadFiles(files: List<MultipartFile>, roomNo: Long): FileUrlListResponse {
-        val room = roomRepository.findByNumber(roomNo) ?: throw RoomNotFoundException
-
-        val uploadedFiles = files.map { uploadFile(it, roomNo.toString()) }
-
-        uploadedFiles.forEach { fileResponse ->
-            val roomAttachment = RoomAttachment(
-                room = room,
-                imageUrl = fileResponse.url
-            )
-            roomAttachmentRepository.save(roomAttachment)
-        }
-
-        return FileUrlListResponse(uploadedFiles.toMutableList())
+        return FileUrlListResponse(
+            files.map { uploadFile(it, roomNo) }.toMutableList()
+        )
     }
 
-    private fun uploadFile(file: MultipartFile, roomNo: String): FileUrlResponse {
+    private fun uploadFile(file: MultipartFile, roomNo: Long): FileUrlResponse {
         val bytes: ByteArray = IOUtils.toByteArray(file.inputStream)
         val objectMetadata = ObjectMetadata().apply {
             this.contentType = file.contentType

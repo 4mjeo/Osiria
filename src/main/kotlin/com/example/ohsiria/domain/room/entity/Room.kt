@@ -1,8 +1,7 @@
 package com.example.ohsiria.domain.room.entity
 
-import com.example.ohsiria.domain.service.RoomService
 import jakarta.persistence.*
-import java.util.UUID
+import java.util.*
 
 @Entity(name = "tbl_room")
 class Room(
@@ -32,7 +31,11 @@ class Room(
     var roomServices: MutableList<RoomService> = mutableListOf()
         protected set
 
-    @OneToMany(mappedBy = "room", cascade = [(CascadeType.ALL)], orphanRemoval = true)
+    @OneToMany(mappedBy = "room", cascade = [CascadeType.ALL], orphanRemoval = true)
     var attachments: MutableList<RoomAttachment> = mutableListOf()
         protected set
+
+    fun addAttachment(imageUrl: String) {
+        attachments.add(RoomAttachment(room = this, imageUrl = imageUrl))
+    }
 }
