@@ -4,11 +4,14 @@ import com.example.ohsiria.domain.company.entity.Company
 import com.example.ohsiria.domain.company.exception.CompanyMismatchException
 import com.example.ohsiria.domain.reservation.entity.Reservation
 import com.example.ohsiria.domain.reservation.entity.ReservationStatus
+import com.example.ohsiria.domain.reservation.exception.AlreadyCanceledException
+import com.example.ohsiria.domain.reservation.exception.InvalidCancellationException
 import com.example.ohsiria.domain.reservation.exception.InvalidDateRangeException
 import com.example.ohsiria.domain.reservation.exception.ReservationConflictException
 import com.example.ohsiria.domain.reservation.repository.ReservationRepositoryCustom
 import com.example.ohsiria.domain.room.entity.Room
 import com.example.ohsiria.global.common.facade.UserFacade
+import com.example.ohsiria.global.config.error.exception.PermissionDeniedException
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -48,5 +51,20 @@ class ReservationChecker(
     fun isCurrent(reservation: Reservation, currentDate: LocalDate): Boolean {
         return (reservation.status == ReservationStatus.WAITING || reservation.status == ReservationStatus.RESERVED)
                 && reservation.endDate >= currentDate
+    }
+
+    fun checkCancellationPermission(reservation: Reservation) {
+        if (reservation.company.user.id != userFacade.getCurrentUser().id)
+            throw PermissionDeniedException
+    }
+
+    fun checkCancellationValidity(reservation: Reservation) {
+        if (LocalDate.now().plusDays(3).isAfter(reservation.startDate))
+            throw InvalidCancellationException
+    }
+
+    fun checkAlreadyCanceled(reservation: Reservation) {
+        if (reservation.status == ReservationStatus.CANCELED)
+            throw AlreadyCanceledException
     }
 }
