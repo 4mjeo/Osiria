@@ -7,7 +7,7 @@ import com.example.ohsiria.domain.reservation.entity.ReservationStatus
 import com.example.ohsiria.domain.reservation.exception.InvalidDateRangeException
 import com.example.ohsiria.domain.reservation.exception.ReservationConflictException
 import com.example.ohsiria.domain.reservation.repository.ReservationRepositoryCustom
-import com.example.ohsiria.domain.room.entity.RoomType
+import com.example.ohsiria.domain.room.entity.Room
 import com.example.ohsiria.global.common.facade.UserFacade
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -24,8 +24,8 @@ class ReservationChecker(
             throw CompanyMismatchException
     }
 
-    fun checkReservationConflict(startDate: LocalDate, endDate: LocalDate, roomType: RoomType) {
-        if (reservationRepositoryCustom.existsActiveReservationByDateRangeAndRoom(startDate, endDate, roomType))
+    fun checkReservationConflict(startDate: LocalDate, endDate: LocalDate, room: Room) {
+        if (reservationRepositoryCustom.existsActiveReservationByDateRangeAndRoom(startDate, endDate, room))
             throw ReservationConflictException
     }
 

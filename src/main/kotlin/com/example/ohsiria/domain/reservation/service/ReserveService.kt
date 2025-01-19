@@ -10,7 +10,10 @@ import com.example.ohsiria.domain.reservation.exception.ShortageRemainingDaysExc
 import com.example.ohsiria.domain.reservation.presentation.dto.request.ReserveRequest
 import com.example.ohsiria.domain.reservation.presentation.dto.response.ReserveResponse
 import com.example.ohsiria.domain.reservation.repository.ReservationRepository
+import com.example.ohsiria.domain.room.exception.RoomNotFoundException
+import com.example.ohsiria.domain.room.repository.RoomRepository
 import com.example.ohsiria.global.common.facade.UserFacade
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -20,16 +23,18 @@ class ReserveService(
     private val userFacade: UserFacade,
     private val reservationChecker: ReservationChecker,
     private val companyRepository: CompanyRepository,
-    private val holidayRepository: HolidayRepository
+    private val holidayRepository: HolidayRepository,
+    private val roomRepository: RoomRepository,
 ) {
     @Transactional
     fun execute(request: ReserveRequest): ReserveResponse {
         val user = userFacade.getCurrentUser()
         val company = companyRepository.findByUser(user) ?: throw CompanyNotFoundException
+        val room = roomRepository.findByIdOrNull(request.roomId) ?: throw RoomNotFoundException
 
         reservationChecker.checkPermission(company)
         reservationChecker.checkDateRange(request.startDate, request.endDate)
-        reservationChecker.checkReservationConflict(request.startDate, request.endDate, request.roomType)
+        reservationChecker.checkReservationConflict(request.startDate, request.endDate, room)
 
         val dates = company.getDatesWithHolidayInfo(request.startDate, request.endDate, holidayRepository)
 
@@ -44,7 +49,7 @@ class ReserveService(
             name = request.name,
             accountNumber = request.accountNumber,
             company = company,
-            roomType = request.roomType,
+            room = room,
             status = ReservationStatus.WAITING
         )
         reservationRepository.save(reservation)

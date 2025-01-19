@@ -2,7 +2,6 @@ package com.example.ohsiria.domain.reservation.presentation.dto.response
 
 import com.example.ohsiria.domain.reservation.entity.Reservation
 import com.example.ohsiria.domain.reservation.entity.ReservationStatus
-import com.example.ohsiria.domain.room.entity.RoomType
 import java.time.LocalDate
 import java.util.*
 
@@ -11,7 +10,7 @@ data class ReservationResponse(
     val startDate: LocalDate,
     val endDate: LocalDate,
     val name: String,
-    val roomType: RoomType,
+    val roomNo: Long,
     val status: ReservationStatus,
 ) {
     companion object {
@@ -21,7 +20,7 @@ data class ReservationResponse(
                 startDate = reservation.startDate,
                 endDate = reservation.endDate,
                 name = reservation.name,
-                roomType = reservation.roomType,
+                roomNo = reservation.room.number,
                 status = reservation.status,
             )
     }
@@ -34,7 +33,7 @@ data class ManagerReservationResponse(
     val name: String,
     val phoneNumber: String,
     val accountNumber: String,
-    val roomType: RoomType,
+    val roomNo: Long,
     val status: ReservationStatus,
     val companyName: String
 ) {
@@ -47,7 +46,7 @@ data class ManagerReservationResponse(
                 name = reservation.name,
                 phoneNumber = reservation.phoneNumber,
                 accountNumber = reservation.accountNumber,
-                roomType = reservation.roomType,
+                roomNo = reservation.room.number,
                 status = reservation.status,
                 companyName = reservation.company.user.name
             )

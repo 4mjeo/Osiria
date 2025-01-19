@@ -1,7 +1,7 @@
 package com.example.ohsiria.domain.reservation.entity
 
 import com.example.ohsiria.domain.company.entity.Company
-import com.example.ohsiria.domain.room.entity.RoomType
+import com.example.ohsiria.domain.room.entity.Room
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.OnDelete
@@ -19,7 +19,7 @@ class Reservation(
     name: String,
     accountNumber: String,
     company: Company,
-    roomType: RoomType,
+    room: Room,
     status: ReservationStatus = ReservationStatus.WAITING,
 ) {
     @Id
@@ -52,10 +52,10 @@ class Reservation(
     var company: Company = company
         protected set
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "room_type", columnDefinition = "VARCHAR(10)", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var roomType: RoomType = roomType
+    var room: Room = room
         protected set
 
     @Enumerated(EnumType.STRING)

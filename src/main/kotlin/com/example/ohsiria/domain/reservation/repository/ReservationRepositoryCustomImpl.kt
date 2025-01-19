@@ -1,27 +1,26 @@
 package com.example.ohsiria.domain.reservation.repository
 
 import com.example.ohsiria.domain.company.entity.Company
+import com.example.ohsiria.domain.reservation.entity.QReservation.reservation
 import com.example.ohsiria.domain.reservation.entity.ReservationStatus
+import com.example.ohsiria.domain.room.entity.Room
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Service
 import java.time.LocalDate
-
-import com.example.ohsiria.domain.reservation.entity.QReservation.reservation
-import com.example.ohsiria.domain.room.entity.RoomType
 
 @Service
 class ReservationRepositoryCustomImpl(
     private val queryFactory: JPAQueryFactory
 ) : ReservationRepositoryCustom {
 
-    override fun existsActiveReservationByDateRangeAndRoom(startDate: LocalDate, endDate: LocalDate, roomType: RoomType): Boolean {
+    override fun existsActiveReservationByDateRangeAndRoom(startDate: LocalDate, endDate: LocalDate, room: Room): Boolean {
         return queryFactory
             .selectOne()
             .from(reservation)
             .where(
                 reservation.startDate.loe(endDate),
                 reservation.endDate.goe(startDate),
-                reservation.roomType.eq(roomType),
+//                reservation.room.eq(room),
                 reservation.status.`in`(ReservationStatus.WAITING, ReservationStatus.RESERVED)
             )
             .fetchFirst() != null
