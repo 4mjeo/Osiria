@@ -27,6 +27,7 @@ enum class ErrorCode(
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
     RESERVATION_NOT_FOUND(HttpStatus.NOT_FOUND, "예약을 한 적이 없습니다."),
     COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, "회사를 찾을 없습니다."),
+    ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다."),
 
     //409
     ALREADY_RESERVED(HttpStatus.CONFLICT, "이미 예약했습니다."),

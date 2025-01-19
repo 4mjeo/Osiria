@@ -31,4 +31,8 @@ class Room(
     @OneToMany(mappedBy = "room", cascade = [(CascadeType.ALL)], orphanRemoval = true)
     var roomServices: MutableList<RoomService> = mutableListOf()
         protected set
+
+    @OneToMany(mappedBy = "room", cascade = [(CascadeType.ALL)], orphanRemoval = true)
+    var attachments: MutableList<RoomAttachment> = mutableListOf()
+        protected set
 }

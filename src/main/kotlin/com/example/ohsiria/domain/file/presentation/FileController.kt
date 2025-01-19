@@ -1,5 +1,6 @@
 package com.example.ohsiria.domain.file.presentation
 
+import com.example.ohsiria.domain.file.presentation.dto.FileUrlListResponse
 import com.example.ohsiria.domain.file.service.UploadFileService
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -12,6 +13,6 @@ class FileController(
     @PostMapping("/upload")
     fun uploadFile(
         @RequestPart("files", required = true) files: List<MultipartFile>,
-        @RequestParam("roomNo", required = true) roomNo: String,
-    ) = uploadFileService.uploadFiles(files, roomNo)
+        @RequestParam("roomNo", required = true) roomNo: Long,
+    ): FileUrlListResponse = uploadFileService.uploadFiles(files, roomNo)
 }
