@@ -3,6 +3,7 @@ package com.example.ohsiria.domain.reservation.repository
 import com.example.ohsiria.domain.company.entity.Company
 import com.example.ohsiria.domain.reservation.entity.QReservation.reservation
 import com.example.ohsiria.domain.reservation.entity.ReservationStatus
+import com.example.ohsiria.domain.room.entity.QRoom.room
 import com.example.ohsiria.domain.room.entity.Room
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Service
@@ -41,5 +42,21 @@ class ReservationRepositoryCustomImpl(
                 reservation.status.`in`(ReservationStatus.RESERVED, ReservationStatus.WAITING)
             )
             .fetchOne() ?: 0L
+    }
+
+    override fun findAvailableRooms(startDate: LocalDate, endDate: LocalDate): List<Room> {
+        return queryFactory
+            .selectFrom(room)
+            .where(room.id.notIn(
+                queryFactory
+                    .select(reservation.room.id)
+                    .from(reservation)
+                    .where(
+                        reservation.startDate.lt(endDate),
+                        reservation.endDate.gt(startDate),
+                        reservation.status.`in`(ReservationStatus.CANCELED, ReservationStatus.WAITING)
+                    )
+            ))
+            .fetch()
     }
 }

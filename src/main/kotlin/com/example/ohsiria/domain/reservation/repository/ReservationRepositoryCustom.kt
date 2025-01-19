@@ -8,4 +8,6 @@ interface ReservationRepositoryCustom {
     fun countDaysByCompanyAndDateRangeAndType(company: Company, startDate: LocalDate, endDate: LocalDate): Long
 
     fun existsActiveReservationByDateRangeAndRoom(startDate: LocalDate, endDate: LocalDate, room: Room): Boolean
+
+    fun findAvailableRooms(startDate: LocalDate, endDate: LocalDate): List<Room>
 }
