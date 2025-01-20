@@ -29,7 +29,7 @@ class ReservationController(
     private val cancelReservationService: CancelReservationService,
     private val queryMyReservationService: QueryMyReservationService,
     private val queryAllReservationsService: QueryAllReservationsService,
-    private val confirmReservationService: ConfirmReservationService,
+    private val updateReservationStatusService: UpdateReservationStatusService,
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -55,6 +55,6 @@ class ReservationController(
         @PathVariable("reservation-id") reservationId: UUID,
         @RequestParam newStatus: ReservationStatus
     ) {
-        confirmReservationService.execute(reservationId, newStatus)
+        updateReservationStatusService.execute(reservationId, newStatus)
     }
 }

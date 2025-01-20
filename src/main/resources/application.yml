@@ -39,3 +39,9 @@ cloud:
       access-key: ${IAM_ACCESS}
       secret-key: ${IAM_SECRET}
       region: ap-northeast-2
+
+naver:
+  access-key: ncp_iam_BPAMKRBaLZeFF3XnX68Y
+  secret-key: ncp_iam_BPKMKR9CtXDRveMkqWFL9YsxVqsh0U4JET
+  service-id: ncp:sms:kr:345452856334:osiria
+  sender: 01053867212

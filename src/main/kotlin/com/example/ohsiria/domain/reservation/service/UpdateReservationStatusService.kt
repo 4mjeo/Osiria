@@ -3,22 +3,25 @@ package com.example.ohsiria.domain.reservation.service
 import com.example.ohsiria.domain.company.repository.CompanyRepository
 import com.example.ohsiria.domain.holiday.repository.HolidayRepository
 import com.example.ohsiria.domain.reservation.entity.ReservationStatus
+import com.example.ohsiria.domain.reservation.event.ReservationStatusChangedEvent
 import com.example.ohsiria.domain.reservation.exception.ReservationNotFoundException
 import com.example.ohsiria.domain.reservation.repository.ReservationRepository
 import com.example.ohsiria.domain.user.entity.UserType
 import com.example.ohsiria.global.common.facade.UserFacade
 import com.example.ohsiria.global.config.error.exception.PermissionDeniedException
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
-class ConfirmReservationService(
+class UpdateReservationStatusService(
     private val reservationRepository: ReservationRepository,
     private val userFacade: UserFacade,
     private val companyRepository: CompanyRepository,
-    private val holidayRepository: HolidayRepository
+    private val holidayRepository: HolidayRepository,
+    private val applicationEventPublisher: ApplicationEventPublisher
 ) {
     @Transactional
     fun execute(reservationId: UUID, newStatus: ReservationStatus) {
@@ -36,6 +39,8 @@ class ConfirmReservationService(
                 reservation.confirm()
                 val dates = company.getDatesWithHolidayInfo(reservation.startDate, reservation.endDate, holidayRepository)
                 company.updateRemainingDays(dates)
+
+                applicationEventPublisher.publishEvent(ReservationStatusChangedEvent(reservationId, newStatus, reservation.phoneNumber))
             }
             ReservationStatus.CANCELED -> {
                 if (reservation.status == ReservationStatus.RESERVED) {
