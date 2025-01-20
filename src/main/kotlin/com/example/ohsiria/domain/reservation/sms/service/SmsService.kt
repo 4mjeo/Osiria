@@ -19,25 +19,25 @@ import javax.crypto.spec.SecretKeySpec
 class SmsService(
     private val restTemplate: RestTemplate,
     private val smsProperty: SmsProperty,
-){
+) {
     fun sendSms(messageDto: MessageDTO): SmsResponseDTO {
-        val url = "https://sens.apigw.ntruss.com/sms/v2/services/${smsProperty.serviceId}/messages"
+        val urlPath = "/sms/v2/services/${smsProperty.serviceId}/messages"
+        val fullUrl = "https://sens.apigw.ntruss.com$urlPath"
         val timestamp = System.currentTimeMillis().toString()
-        val signature = generateSignature(smsProperty.secretKey!!, url, timestamp)
+        val signature = makeSignature("POST", urlPath, timestamp, smsProperty.accessKey, smsProperty.secretKey)
 
         val headers = HttpHeaders().apply {
-            set("X-NCP-APIGW-API-KEY-ID", smsProperty.accessKey)
-            set("X-NCP-APIGW-API-KEY", smsProperty.secretKey)
-            set("X-NCP-APIGW-API-SIGNATURE", signature)
-            set("Content-Type", "application/json")
-            set("X-NCP-APIGW-TIMESTAMP", timestamp)
+            set("Content-Type", "application/json; charset=utf-8")
+            set("x-ncp-iam-access-key", smsProperty.accessKey)
+            set("x-ncp-apigw-timestamp", timestamp)
+            set("x-ncp-apigw-signature-v2", signature)
         }
 
         val body = SmsRequestDTO(
-            type = "SMS",
+            type = "LMS",
             contentType = "COMM",
             countryCode = "82",
-            from = smsProperty.sender!!,
+            from = smsProperty.sender,
             content = messageDto.content,
             messages = listOf(messageDto)
         )
@@ -46,19 +46,38 @@ class SmsService(
 
         return try {
             val response: ResponseEntity<SmsResponseDTO> =
-                restTemplate.exchange(URI(url), HttpMethod.POST, entity, SmsResponseDTO::class.java)
+                restTemplate.exchange(URI(fullUrl), HttpMethod.POST, entity, SmsResponseDTO::class.java)
             response.body ?: throw RuntimeException("Response body is null")
         } catch (e: Exception) {
             throw RuntimeException("Failed to send SMS: ${e.message}", e)
         }
     }
 
-    private fun generateSignature(secretKey: String, url: String, timestamp: String): String {
-        val message = "POST\n$url\n$timestamp"
-        val hmacSha256 = Mac.getInstance("HmacSHA256")
-        val secretKeySpec = SecretKeySpec(secretKey.toByteArray(), "HmacSHA256")
-        hmacSha256.init(secretKeySpec)
-        val hash = hmacSha256.doFinal(message.toByteArray())
-        return Base64.getEncoder().encodeToString(hash)
+    private fun makeSignature(
+        method: String,
+        url: String,
+        timestamp: String,
+        accessKey: String,
+        secretKey: String
+    ): String {
+        val space = " "
+        val newLine = "\n"
+
+        val message = StringBuilder()
+            .append(method)
+            .append(space)
+            .append(url)
+            .append(newLine)
+            .append(timestamp)
+            .append(newLine)
+            .append(accessKey)
+            .toString()
+
+        val signingKey = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8), "HmacSHA256")
+        val mac = Mac.getInstance("HmacSHA256")
+        mac.init(signingKey)
+
+        val rawHmac = mac.doFinal(message.toByteArray(Charsets.UTF_8))
+        return Base64.getEncoder().encodeToString(rawHmac)
     }
 }
