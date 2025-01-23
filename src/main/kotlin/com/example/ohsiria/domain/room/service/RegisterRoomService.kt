@@ -21,7 +21,8 @@ class RegisterRoomService(
         val room = Room(
             number = request.number,
             introduction = request.introduction,
-            guide = request.guide
+            guide = request.guide,
+            amount = request.amount,
         )
 
         request.attachments?.forEach { url -> room.addAttachment(url) }

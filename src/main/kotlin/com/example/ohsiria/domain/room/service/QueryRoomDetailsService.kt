@@ -20,6 +20,7 @@ class QueryRoomDetailsService(
             roomNo = room.number,
             introduction = room.introduction,
             guide = room.guide,
+            amount = room.amount,
             attachments = room.attachments.map { it.imageUrl },
             serviceKeywords = room.roomServices.map { it.service.keyword }
         )

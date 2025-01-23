@@ -12,6 +12,7 @@ data class ReservationResponse(
     val name: String,
     val roomNo: Long,
     val status: ReservationStatus,
+    val amount: Long,
 ) {
     companion object {
         fun from(reservation: Reservation): ReservationResponse =
@@ -22,6 +23,7 @@ data class ReservationResponse(
                 name = reservation.name,
                 roomNo = reservation.room.number,
                 status = reservation.status,
+                amount = reservation.room.amount,
             )
     }
 }
@@ -35,7 +37,8 @@ data class ManagerReservationResponse(
     val accountNumber: String,
     val roomNo: Long,
     val status: ReservationStatus,
-    val companyName: String
+    val companyName: String,
+    val amount: Long,
 ) {
     companion object {
         fun from(reservation: Reservation): ManagerReservationResponse {
@@ -48,7 +51,8 @@ data class ManagerReservationResponse(
                 accountNumber = reservation.accountNumber,
                 roomNo = reservation.room.number,
                 status = reservation.status,
-                companyName = reservation.company.user.name
+                companyName = reservation.company.user.name,
+                amount = reservation.room.amount,
             )
         }
     }

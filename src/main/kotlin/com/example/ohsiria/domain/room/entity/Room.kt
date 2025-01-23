@@ -10,6 +10,7 @@ class Room(
     number: Long,
     introduction: String,
     guide: String,
+    amount: Long,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +27,10 @@ class Room(
 
     @Column(name = "guide", columnDefinition = "TEXT", nullable = false)
     var guide: String = guide
+        protected set
+
+    @Column(name = "amount", columnDefinition = "INTEGER", nullable = false)
+    var amount: Long = amount
         protected set
 
     @OneToMany(mappedBy = "room", cascade = [(CascadeType.ALL)], orphanRemoval = true)
