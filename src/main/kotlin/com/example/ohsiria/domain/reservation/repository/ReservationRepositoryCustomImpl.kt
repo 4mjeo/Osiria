@@ -2,6 +2,7 @@ package com.example.ohsiria.domain.reservation.repository
 
 import com.example.ohsiria.domain.company.entity.Company
 import com.example.ohsiria.domain.reservation.entity.QReservation.reservation
+import com.example.ohsiria.domain.reservation.entity.Reservation
 import com.example.ohsiria.domain.reservation.entity.ReservationStatus
 import com.example.ohsiria.domain.room.entity.QRoom.room
 import com.example.ohsiria.domain.room.entity.Room
@@ -57,6 +58,28 @@ class ReservationRepositoryCustomImpl(
                         reservation.status.`in`(ReservationStatus.CANCELED, ReservationStatus.WAITING)
                     )
             ))
+            .fetch()
+    }
+
+    override fun findByCompanyAndHistoryAndPaymentStatus(
+        company: Company,
+        isHistory: Boolean,
+        isPaid: Boolean?
+    ): List<Reservation> {
+        val currentDate = LocalDate.now()
+
+        return queryFactory
+            .selectFrom(reservation)
+            .where(
+                reservation.company.eq(company),
+                if (isHistory) reservation.endDate.before(currentDate)
+                else reservation.endDate.goe(currentDate),
+                when (isPaid) {
+                    true -> reservation.paidAt.isNotNull
+                    false -> reservation.paidAt.isNull
+                    null -> null
+                }
+            )
             .fetch()
     }
 }

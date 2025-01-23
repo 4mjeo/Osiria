@@ -43,8 +43,9 @@ class ReservationController(
 
     @GetMapping("/company")
     fun queryMyReservation(
-        @RequestParam(defaultValue = "false") isHistory: Boolean
-    ): List<ReservationResponse> = queryMyReservationService.execute(isHistory)
+        @RequestParam(defaultValue = "false") isHistory: Boolean,
+        @RequestParam(required = false) isPaid: Boolean?,
+    ): List<ReservationResponse> = queryMyReservationService.execute(isHistory, isPaid)
 
     @GetMapping("/manager")
     fun queryAllReservation(@RequestParam date: LocalDate): List<ManagerReservationResponse> =

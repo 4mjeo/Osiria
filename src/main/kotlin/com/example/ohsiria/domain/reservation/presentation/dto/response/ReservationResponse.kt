@@ -57,3 +57,10 @@ data class ManagerReservationResponse(
         }
     }
 }
+
+data class NotPaidReservationResponse(
+    val id: UUID,
+    val roomNo: Long,
+    val startDate: LocalDate,
+    val endDate: LocalDate
+)
