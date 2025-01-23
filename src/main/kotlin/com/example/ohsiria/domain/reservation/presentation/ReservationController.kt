@@ -30,6 +30,7 @@ class ReservationController(
     private val queryMyReservationService: QueryMyReservationService,
     private val queryAllReservationsService: QueryAllReservationsService,
     private val updateReservationStatusService: UpdateReservationStatusService,
+    private val payReservationService: PayReservationService,
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -57,5 +58,10 @@ class ReservationController(
         @RequestParam newStatus: ReservationStatus
     ) {
         updateReservationStatusService.execute(reservationId, newStatus)
+    }
+
+    @PostMapping("/pay/{reservation-id}")
+    fun payReservation(@PathVariable("reservation-id") reservationId: UUID) {
+        payReservationService.execute(reservationId)
     }
 }
