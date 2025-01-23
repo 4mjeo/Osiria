@@ -22,6 +22,7 @@ class QueryRoomListService(
 
         return availableRooms.map { room ->
             RoomListResponse(
+                roomId = room.id,
                 roomNo = room.number,
                 attachment = room.attachments.firstOrNull()?.imageUrl
             )

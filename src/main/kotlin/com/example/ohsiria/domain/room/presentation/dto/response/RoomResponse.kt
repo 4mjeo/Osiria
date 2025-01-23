@@ -1,5 +1,7 @@
 package com.example.ohsiria.domain.room.presentation.dto.response
 
+import java.util.UUID
+
 data class RoomDetailsResponse(
     val roomNo: Long,
     val introduction: String,
@@ -10,6 +12,7 @@ data class RoomDetailsResponse(
 )
 
 data class RoomListResponse(
+    val roomId: UUID?,
     val roomNo: Long,
     val attachment: String?
 )
