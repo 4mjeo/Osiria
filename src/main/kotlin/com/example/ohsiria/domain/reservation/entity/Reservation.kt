@@ -47,11 +47,11 @@ class Reservation(
     var accountNumber: String = accountNumber
         protected set
 
-    @Column(name = "created_at", columnDefinition = "DATE", nullable = false)
+    @Column(name = "created_at", columnDefinition = "DATETIME", nullable = false)
     var createdAt: LocalDateTime = LocalDateTime.now()
         protected set
 
-    @Column(name = "paid_at", columnDefinition = "DATE", nullable = false)
+    @Column(name = "paid_at", columnDefinition = "DATETIME")
     var paidAt: LocalDateTime? = null
         protected set
 
