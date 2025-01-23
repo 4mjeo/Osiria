@@ -21,5 +21,8 @@ data class ReserveRequest(
     val accountNumber: String,
 
     @field:NotNull
-    val roomId: UUID
+    val roomId: UUID,
+
+    @field:NotNull
+    var isPaid: Boolean
 )

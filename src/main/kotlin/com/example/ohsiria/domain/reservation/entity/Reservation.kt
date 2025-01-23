@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 @Entity(name = "tbl_reservation")
@@ -20,7 +21,6 @@ class Reservation(
     accountNumber: String,
     company: Company,
     room: Room,
-    status: ReservationStatus = ReservationStatus.WAITING,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,6 +47,14 @@ class Reservation(
     var accountNumber: String = accountNumber
         protected set
 
+    @Column(name = "created_at", columnDefinition = "DATE", nullable = false)
+    var createdAt: LocalDateTime = LocalDateTime.now()
+        protected set
+
+    @Column(name = "paid_at", columnDefinition = "DATE", nullable = false)
+    var paidAt: LocalDateTime? = null
+        protected set
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     var company: Company = company
@@ -69,5 +77,9 @@ class Reservation(
 
     fun confirm() {
         this.status = ReservationStatus.RESERVED
+    }
+
+    fun markAsPaid() {
+        this.paidAt = LocalDateTime.now()
     }
 }

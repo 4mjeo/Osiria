@@ -5,7 +5,6 @@ import com.example.ohsiria.domain.company.repository.CompanyRepository
 import com.example.ohsiria.domain.holiday.repository.HolidayRepository
 import com.example.ohsiria.domain.reservation.checker.ReservationChecker
 import com.example.ohsiria.domain.reservation.entity.Reservation
-import com.example.ohsiria.domain.reservation.entity.ReservationStatus
 import com.example.ohsiria.domain.reservation.exception.ShortageRemainingDaysException
 import com.example.ohsiria.domain.reservation.presentation.dto.request.ReserveRequest
 import com.example.ohsiria.domain.reservation.presentation.dto.response.ReserveResponse
@@ -50,8 +49,12 @@ class ReserveService(
             accountNumber = request.accountNumber,
             company = company,
             room = room,
-            status = ReservationStatus.WAITING
         )
+
+        if (request.isPaid) {
+            reservation.markAsPaid()
+        }
+
         reservationRepository.save(reservation)
 
         return ReserveResponse(reservationId = reservation.id!!)
