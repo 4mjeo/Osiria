@@ -12,7 +12,11 @@ class QueryCompanyListService(
     @Transactional(readOnly = true)
     fun execute(): List<CompanyListResponse> {
         return companyRepository.findAll().map {
-            CompanyListResponse(it.user.name)
+            CompanyListResponse(
+                it.user.name,
+                it.user.accountId,
+                it.user.password
+            )
         }
     }
 }

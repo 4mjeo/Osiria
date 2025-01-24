@@ -11,6 +11,7 @@ class Room(
     introduction: String,
     guide: String,
     amount: Long,
+    caution: String
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,6 +34,10 @@ class Room(
     var amount: Long = amount
         protected set
 
+    @Column(name = "caution", columnDefinition = "TEXT")
+    var caution: String = caution
+        protected set
+
     @OneToMany(mappedBy = "room", cascade = [(CascadeType.ALL)], orphanRemoval = true)
     var roomServices: MutableList<RoomService> = mutableListOf()
         protected set
@@ -41,9 +46,10 @@ class Room(
     var attachments: MutableList<RoomAttachment> = mutableListOf()
         protected set
 
-    fun update(introduction: String?, guide: String?) {
+    fun update(introduction: String?, guide: String?, caution: String?) {
         introduction?.let { this.introduction = it }
         guide?.let { this.guide = it }
+        caution?.let { this.caution = it }
     }
 
     fun addAttachment(imageUrl: String) {

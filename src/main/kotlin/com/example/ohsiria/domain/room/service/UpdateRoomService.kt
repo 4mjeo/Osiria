@@ -21,7 +21,7 @@ class UpdateRoomService(
     fun execute(roomId: UUID, request: UpdateRoomRequest) {
         val room = roomRepository.findByIdOrNull(roomId) ?: throw RoomNotFoundException
 
-        room.update(request.introduction, request.guide)
+        room.update(request.introduction, request.guide, request.caution)
         request.attachments?.let { newAttachments ->
             room.clearAttachments()
             newAttachments.forEach { url -> room.addAttachment(url) }

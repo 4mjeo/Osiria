@@ -6,6 +6,8 @@ import com.example.ohsiria.domain.reservation.presentation.dto.response.Reservat
 
 data class CompanyListResponse(
     val companyName: String,
+    val accountId: String,
+    val password: String
 )
 
 data class CompanyDetailResponse(
