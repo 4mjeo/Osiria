@@ -11,10 +11,12 @@ class QueryAllReservationsService(
     private val reservationRepository: ReservationRepository
 ) {
     @Transactional(readOnly = true)
-    fun execute(date: LocalDate): List<ManagerReservationResponse> {
+    fun execute(date: LocalDate? = null): List<ManagerReservationResponse> {
         return reservationRepository.findAll()
             .filter { reservation ->
-                (reservation.startDate <= date && date <= reservation.endDate)
+                date?.let { d ->
+                    (reservation.startDate <= d && d <= reservation.endDate)
+                } ?: true
             }
             .map { ManagerReservationResponse.from(it) }
     }

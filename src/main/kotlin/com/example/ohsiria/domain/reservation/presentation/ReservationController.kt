@@ -49,7 +49,7 @@ class ReservationController(
     ): List<ReservationResponse> = queryMyReservationService.execute(isHistory, isPaid)
 
     @GetMapping("/manager")
-    fun queryAllReservation(@RequestParam date: LocalDate): List<ManagerReservationResponse> =
+    fun queryAllReservation(@RequestParam(required = false) date: LocalDate?): List<ManagerReservationResponse> =
         queryAllReservationsService.execute(date)
 
     @PatchMapping("/confirm/{reservation-id}")
