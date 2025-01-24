@@ -6,6 +6,7 @@ import com.example.ohsiria.domain.user.entity.User
 import jakarta.persistence.*
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 @Entity(name = "tbl_company")
@@ -28,6 +29,10 @@ class Company(
     var remainWeekend = remainWeekend
         protected set
 
+    @Column(name = "created_at", columnDefinition = "DATETIME", nullable = false)
+    var createdAt: LocalDateTime = LocalDateTime.now()
+        protected set
+
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "user_id", nullable = false)
     @MapsId
@@ -36,6 +41,11 @@ class Company(
 
     @OneToMany(mappedBy = "company", cascade = [CascadeType.ALL], orphanRemoval = true)
     val reservations: MutableList<Reservation> = mutableListOf()
+
+    fun resetRemainingDays() {
+        remainWeekday = 20
+        remainWeekend = 10
+    }
 
     fun updateRemainingDays(dates: List<Pair<LocalDate, Boolean>>) {
         dates.dropLast(1).forEach { (date, isHoliday) ->
