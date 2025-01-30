@@ -8,7 +8,7 @@ import com.example.ohsiria.domain.manager.presentation.dto.response.CreateCompan
 import com.example.ohsiria.domain.user.entity.User
 import com.example.ohsiria.domain.user.entity.UserType
 import com.example.ohsiria.domain.user.repository.UserRepository
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import com.example.ohsiria.global.config.security.AESEncryptionService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,9 +16,8 @@ import org.springframework.transaction.annotation.Transactional
 class CreateCompanyAccountService(
     private val companyRepository: CompanyRepository,
     private val userRepository: UserRepository,
-    private val passwordEncoder: BCryptPasswordEncoder
+    private val aesEncryptionService: AESEncryptionService
 ) {
-
     @Transactional
     fun execute(request: CreateCompanyAccountRequest): CreateCompanyResponse {
         if (userRepository.existsByAccountId(request.accountId)) throw AlreadyExistingAccountException
@@ -26,7 +25,7 @@ class CreateCompanyAccountService(
         val user = User(
             name = request.name,
             accountId = request.accountId,
-            password = passwordEncoder.encode(request.password),
+            password = aesEncryptionService.encrypt(request.password),
             type = UserType.COMPANY
         )
         userRepository.save(user)

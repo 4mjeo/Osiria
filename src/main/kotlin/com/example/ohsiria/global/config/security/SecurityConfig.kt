@@ -64,7 +64,7 @@ class SecurityConfig(
     }
 
     @Bean
-    fun passwordEncoder() = BCryptPasswordEncoder()
+    fun aesEncryptionService() = AESEncryptionService()
 
     @Bean
     fun bankEncoder(): Base64.Encoder = Base64.getEncoder()

@@ -5,8 +5,8 @@ import com.example.ohsiria.domain.company.exception.CompanyNotFoundException
 import com.example.ohsiria.domain.company.repository.CompanyRepository
 import com.example.ohsiria.domain.manager.presentation.dto.request.UpdateCompanyRequest
 import com.example.ohsiria.domain.user.repository.UserRepository
+import com.example.ohsiria.global.config.security.AESEncryptionService
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -15,7 +15,7 @@ import java.util.*
 class UpdateCompanyService(
     private val companyRepository: CompanyRepository,
     private val userRepository: UserRepository,
-    private val passwordEncoder: BCryptPasswordEncoder
+    private val aesEncryptionService: AESEncryptionService
 ) {
     @Transactional
     fun execute(companyId: UUID, request: UpdateCompanyRequest) {
@@ -28,12 +28,12 @@ class UpdateCompanyService(
             }
         }
 
-        val encodedPassword = request.password?.let { passwordEncoder.encode(it) } ?: user.password
+        val encryptedPassword = request.password?.let { aesEncryptionService.encrypt(it) } ?: user.password
 
         user.update(
             name = request.name ?: user.name,
             accountId = request.accountId ?: user.accountId,
-            password = encodedPassword
+            password = encryptedPassword
         )
         userRepository.save(user)
     }

@@ -45,3 +45,7 @@ naver:
   secret-key: ncp_iam_BPKMKR9CtXDRveMkqWFL9YsxVqsh0U4JET
   service-id: ncp:sms:kr:345452856334:osiria
   sender: 01053867212
+
+aes:
+  secret:
+    key: sjdjdkflasoiunhbgyuidhfyewqqnxwd
