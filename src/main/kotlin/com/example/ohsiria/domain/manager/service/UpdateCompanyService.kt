@@ -33,8 +33,14 @@ class UpdateCompanyService(
         user.update(
             name = request.name ?: user.name,
             accountId = request.accountId ?: user.accountId,
-            password = encryptedPassword
+            password = encryptedPassword,
         )
+        company.update(
+            remainWeekend = request.remainWeekend ?: company.remainWeekend,
+            remainWeekday = request.remainWeekday ?: company.remainWeekday,
+        )
+
         userRepository.save(user)
+        companyRepository.save(company)
     }
 }

@@ -42,6 +42,11 @@ class Company(
     @OneToMany(mappedBy = "company", cascade = [CascadeType.ALL], orphanRemoval = true)
     val reservations: MutableList<Reservation> = mutableListOf()
 
+    fun update(remainWeekday: Int, remainWeekend: Int) {
+        this.remainWeekend = remainWeekend
+        this.remainWeekday = remainWeekday
+    }
+
     fun resetRemainingDays() {
         remainWeekday = 20
         remainWeekend = 10
