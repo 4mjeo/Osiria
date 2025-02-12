@@ -17,7 +17,9 @@ class QueryCompanyListService(
             CompanyListResponse(
                 it.user.name,
                 it.user.accountId,
-                aesEncryptionService.decrypt(it.user.password)
+                aesEncryptionService.decrypt(it.user.password),
+                it.remainWeekend,
+                it.remainWeekday
             )
         }
     }
