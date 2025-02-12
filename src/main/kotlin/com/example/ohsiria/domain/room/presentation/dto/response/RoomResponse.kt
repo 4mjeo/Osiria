@@ -15,5 +15,6 @@ data class RoomDetailsResponse(
 data class RoomListResponse(
     val roomId: UUID?,
     val roomNo: Long,
-    val attachment: String?
+    val attachment: String?,
+    val amount: Long,
 )

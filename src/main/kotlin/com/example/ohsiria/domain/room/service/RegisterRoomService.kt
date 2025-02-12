@@ -23,7 +23,7 @@ class RegisterRoomService(
             introduction = request.introduction,
             guide = request.guide,
             amount = request.amount,
-            caution = request.caution!!
+            caution = request.caution
         )
 
         request.attachments?.forEach { url -> room.addAttachment(url) }

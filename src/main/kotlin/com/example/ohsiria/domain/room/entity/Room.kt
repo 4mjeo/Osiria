@@ -11,7 +11,7 @@ class Room(
     introduction: String,
     guide: String,
     amount: Long,
-    caution: String
+    caution: String?
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +35,7 @@ class Room(
         protected set
 
     @Column(name = "caution", columnDefinition = "TEXT")
-    var caution: String = caution
+    var caution: String? = caution
         protected set
 
     @OneToMany(mappedBy = "room", cascade = [(CascadeType.ALL)], orphanRemoval = true)
@@ -49,7 +49,7 @@ class Room(
     fun update(introduction: String?, guide: String?, caution: String?) {
         introduction?.let { this.introduction = it }
         guide?.let { this.guide = it }
-        caution?.let { this.caution = it }
+        this.caution = caution
     }
 
     fun addAttachment(imageUrl: String) {

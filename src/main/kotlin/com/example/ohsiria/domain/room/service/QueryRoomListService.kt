@@ -24,7 +24,8 @@ class QueryRoomListService(
             RoomListResponse(
                 roomId = room.id,
                 roomNo = room.number,
-                attachment = room.attachments.firstOrNull()?.imageUrl
+                attachment = room.attachments.firstOrNull()?.imageUrl,
+                amount = room.amount
             )
         }
     }
