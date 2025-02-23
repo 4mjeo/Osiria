@@ -5,7 +5,6 @@ import com.example.ohsiria.domain.room.presentation.dto.request.RegisterRoomRequ
 import com.example.ohsiria.domain.room.presentation.dto.response.RegisterRoomResponse
 import com.example.ohsiria.domain.room.repository.RoomRepository
 import com.example.ohsiria.domain.service.entity.RoomService
-import com.example.ohsiria.domain.service.entity.Service
 import com.example.ohsiria.domain.service.repository.RoomServiceRepository
 import com.example.ohsiria.domain.service.repository.ServiceRepository
 import org.springframework.transaction.annotation.Transactional
