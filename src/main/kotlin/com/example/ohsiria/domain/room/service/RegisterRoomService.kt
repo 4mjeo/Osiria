@@ -31,10 +31,7 @@ class RegisterRoomService(
 
         request.serviceKeywords?.let { keywords ->
             val existingServices = serviceRepository.findByKeywords(keywords)
-                .associateBy { it.keyword }
-
-            val roomServices = keywords.map { keyword ->
-                val service = existingServices[keyword] ?: serviceRepository.save(Service(keyword = keyword))
+            val roomServices = existingServices.map { service ->
                 RoomService(room = savedRoom, service = service)
             }
 
