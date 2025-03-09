@@ -23,14 +23,14 @@ spring:
       max-request-size: 100MB
 
 jwt:
-  secret-key: jkfdlajdlsjfasjflsajffdjsafsjasfsfasfsfasfsf
-  access-exp: 7200000
-  refresh-exp: 604800000
+  secret-key: ${SECRET_KEY}
+  access-exp: ${ACCESS_EXP}
+  refresh-exp: ${REFRESH_EXP}
 
 holiday:
   api:
-    url: http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo
-    key: XeH%2F%2BVCjgbP3vptu69aRe5qVXni4AjKklKptgFTbmD1wk9d084NTrJksblMg%2FgxzgrT6JlmA%2FAGXHmwM7thJYA%3D%3D
+    url: ${HOLIDAY_URL}
+    key: ${HOLIDAY_KEY}
 
 cloud:
   aws:
@@ -41,11 +41,11 @@ cloud:
       region: ap-northeast-2
 
 naver:
-  access-key: ncp_iam_BPAMKRBaLZeFF3XnX68Y
-  secret-key: ncp_iam_BPKMKR9CtXDRveMkqWFL9YsxVqsh0U4JET
-  service-id: ncp:sms:kr:345452856334:osiria
-  sender: 01053867212
+  access-key: ${NAVER_ACCESS_KEY}
+  secret-key: ${NAVER_SECRET_KEY}
+  service-id: ${NAVER_SERVICE_ID}
+  sender: ${SENDER}
 
 aes:
   secret:
-    key: sjdjdkflasoiunhbgyuidhfyewqqnxwd
+    key: ${AES_SECRET_KEY}
