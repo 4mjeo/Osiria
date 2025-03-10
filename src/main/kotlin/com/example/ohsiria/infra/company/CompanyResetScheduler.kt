@@ -13,12 +13,12 @@ class CompanyResetScheduler(
     private val companyRepository: CompanyRepository
 ) {
     @Scheduled(cron = "0 0 0 * * ?")
-    fun resetRemainingDays() {
+    fun resetRemainDays() {
         val today = LocalDate.now()
         companyRepository.findAll().forEach { company ->
             val yearsSinceCreation = ChronoUnit.YEARS.between(company.createdAt, today)
             if (yearsSinceCreation > 0 && today.dayOfYear == company.createdAt.dayOfYear) {
-                company.resetRemainingDays()
+                company.resetRemainDays()
                 companyRepository.save(company)
             }
         }
@@ -26,10 +26,10 @@ class CompanyResetScheduler(
 }
 
 //@Scheduled(cron = "0 0 0 1 1 *")
-//fun resetCompanyRemainingDays() {
+//fun resetCompanyRemainDays() {
 //    val today = LocalDate.now()
 //    companyRepository.findAll().forEach { company ->
-//        company.resetRemainingDays()
+//        company.resetRemainDays()
 //        companyRepository.save(company)
 //    }
 //}

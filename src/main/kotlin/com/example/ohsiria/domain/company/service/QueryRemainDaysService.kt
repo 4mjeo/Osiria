@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class QueryRemainingDaysService(
+class QueryRemainDaysService(
     private val companyRepository: CompanyRepository,
     private val userFacade: UserFacade,
 ) {

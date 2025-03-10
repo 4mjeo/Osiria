@@ -38,14 +38,14 @@ class UpdateReservationStatusService(
             ReservationStatus.RESERVED -> {
                 reservation.confirm()
                 val dates = company.getDatesWithHolidayInfo(reservation.startDate, reservation.endDate, holidayRepository)
-                company.updateRemainingDays(dates)
+                company.updateRemainDays(dates)
 
                 applicationEventPublisher.publishEvent(ReservationStatusChangedEvent(reservationId, newStatus, reservation.phoneNumber))
             }
             ReservationStatus.CANCELED -> {
                 if (reservation.status == ReservationStatus.RESERVED) {
                     val dates = company.getDatesWithHolidayInfo(reservation.startDate, reservation.endDate, holidayRepository)
-                    company.returnRemainingDays(dates)
+                    company.returnRemainDays(dates)
                 }
                 reservation.cancel()
             }

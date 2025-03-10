@@ -31,7 +31,7 @@ class CancelReservationService(
 
         if (reservation.status == ReservationStatus.RESERVED) {
             val dates = company.getDatesWithHolidayInfo(reservation.startDate, reservation.endDate, holidayRepository)
-            company.returnRemainingDays(dates)
+            company.returnRemainDays(dates)
         }
 
         reservation.cancel()

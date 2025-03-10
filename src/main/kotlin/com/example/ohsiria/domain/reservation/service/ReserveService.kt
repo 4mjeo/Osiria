@@ -5,7 +5,7 @@ import com.example.ohsiria.domain.company.repository.CompanyRepository
 import com.example.ohsiria.domain.holiday.repository.HolidayRepository
 import com.example.ohsiria.domain.reservation.checker.ReservationChecker
 import com.example.ohsiria.domain.reservation.entity.Reservation
-import com.example.ohsiria.domain.reservation.exception.ShortageRemainingDaysException
+import com.example.ohsiria.domain.reservation.exception.ShortageRemainDaysException
 import com.example.ohsiria.domain.reservation.presentation.dto.request.ReserveRequest
 import com.example.ohsiria.domain.reservation.presentation.dto.response.ReserveResponse
 import com.example.ohsiria.domain.reservation.repository.ReservationRepository
@@ -37,8 +37,8 @@ class ReserveService(
 
         val dates = company.getDatesWithHolidayInfo(request.startDate, request.endDate, holidayRepository)
 
-        if (!company.hasEnoughRemainingDays(dates)) {
-            throw ShortageRemainingDaysException
+        if (!company.hasEnoughRemainDays(dates)) {
+            throw ShortageRemainDaysException
         }
 
         val reservation = Reservation(
