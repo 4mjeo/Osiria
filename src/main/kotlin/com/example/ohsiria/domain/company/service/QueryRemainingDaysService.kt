@@ -18,8 +18,8 @@ class QueryRemainingDaysService(
         val company = companyRepository.findByUser(user) ?: throw CompanyNotFoundException
 
         return CompanyResponse(
-            remainingWeekdays = company.remainWeekday,
-            remainingWeekends = company.remainWeekend,
+            remainWeekday = company.remainWeekday,
+            remainWeekend = company.remainWeekend,
         )
     }
 }

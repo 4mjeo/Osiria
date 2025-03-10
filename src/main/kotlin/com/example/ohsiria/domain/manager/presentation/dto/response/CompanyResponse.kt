@@ -8,8 +8,8 @@ data class CompanyListResponse(
     val companyName: String,
     val accountId: String,
     val password: String,
-    val remainingWeekends: Int,
-    val remainingWeekdays: Int
+    val remainWeekend: Int,
+    val remainWeekday: Int
 )
 
 data class CompanyDetailResponse(
