@@ -37,8 +37,8 @@ class ManagerController(
         updateCompanyService.execute(companyId, request)
     }
 
-    @DeleteMapping("/{company-id}")
-    fun deleteCompanyAccount(@PathVariable("company-id") companyId: UUID) {
-        deleteCompanyService.execute(companyId)
+    @DeleteMapping("/{account-id}")
+    fun deleteCompanyAccount(@PathVariable("account-id") accountId: String) {
+        deleteCompanyService.execute(accountId)
     }
 }
