@@ -37,7 +37,7 @@ class User(
     var type: UserType = type
         protected set
 
-    fun update(name: String, accountId: String, password: String) {
+    fun update(companyName: String, accountId: String, password: String) {
         this.name = name
         this.accountId = accountId
         this.password = password

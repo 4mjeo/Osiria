@@ -31,7 +31,7 @@ class UpdateCompanyService(
         val encryptedPassword = request.password?.let { aesEncryptionService.encrypt(it) } ?: user.password
 
         user.update(
-            name = request.name ?: user.name,
+            companyName = request.name ?: user.name,
             accountId = request.accountId ?: user.accountId,
             password = encryptedPassword,
         )

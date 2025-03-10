@@ -23,7 +23,7 @@ class CreateCompanyAccountService(
         if (userRepository.existsByAccountId(request.accountId)) throw AlreadyExistingAccountException
 
         val user = User(
-            name = request.name,
+            name = request.companyName,
             accountId = request.accountId,
             password = aesEncryptionService.encrypt(request.password),
             type = UserType.COMPANY

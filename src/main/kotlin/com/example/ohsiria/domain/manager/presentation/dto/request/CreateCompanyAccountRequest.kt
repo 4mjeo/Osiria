@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull
 
 data class CreateCompanyAccountRequest(
     @field:NotNull
-    val name: String,
+    val companyName: String,
 
     @field:NotNull
     val accountId: String,
