@@ -32,9 +32,16 @@ class SecurityConfig(
         http
             .csrf { it.disable() }
             .formLogin { it.disable() }
-            .cors { it.configurationSource { CorsConfiguration().applyPermitDefaultValues().also { config ->
-                config.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-            } } }
+            .cors {
+                it.configurationSource {
+                    CorsConfiguration().apply {
+                        allowedOrigins = listOf("*")
+                        allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+                        allowedHeaders = listOf("*")
+                        allowCredentials = true
+                    }
+                }
+            }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
 
         http
