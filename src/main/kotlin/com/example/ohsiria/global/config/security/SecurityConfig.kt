@@ -11,12 +11,12 @@ import mu.KotlinLogging
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.web.cors.CorsConfiguration
 import java.util.*
 
 @Configuration
@@ -32,16 +32,6 @@ class SecurityConfig(
         http
             .csrf { it.disable() }
             .formLogin { it.disable() }
-            .cors {
-                it.configurationSource {
-                    CorsConfiguration().apply {
-                        allowedOrigins = listOf("*")
-                        allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-                        allowedHeaders = listOf("*")
-                        allowCredentials = true
-                    }
-                }
-            }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
 
         http
