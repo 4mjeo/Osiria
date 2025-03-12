@@ -22,19 +22,19 @@ class ManagerController(
     fun createCompanyAccount(@RequestBody request: CreateCompanyAccountRequest): CreateCompanyResponse =
         createCompanyAccountService.execute(request)
 
-    @GetMapping("/{company-id}")
-    fun getCompanyDetails(@PathVariable("company-id") companyId: UUID): CompanyDetailResponse =
-        queryCompanyDetailService.execute(companyId)
+    @GetMapping("/{account-id}")
+    fun getCompanyDetails(@PathVariable("account-id") accountId: String): CompanyDetailResponse =
+        queryCompanyDetailService.execute(accountId)
 
     @GetMapping
     fun getCompanyList(): List<CompanyListResponse> = queryCompanyListService.execute()
 
-    @PatchMapping("/{company-id}")
+    @PatchMapping("/{account-id}")
     fun updateCompanyAccount(
-        @PathVariable("company-id") companyId: UUID,
+        @PathVariable("account-id") accountId: String,
         @RequestBody request: UpdateCompanyRequest
     ) {
-        updateCompanyService.execute(companyId, request)
+        updateCompanyService.execute(accountId, request)
     }
 
     @DeleteMapping("/{account-id}")
