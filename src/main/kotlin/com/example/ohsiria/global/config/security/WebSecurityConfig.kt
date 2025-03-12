@@ -9,7 +9,8 @@ class WebSecurityConfig : WebMvcConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
             .allowedOrigins(
-                "http://localhost:3000"
+                "http://localhost:3000/",
+                "https://osiria.vercel.app/"
             )
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "HEAD")
             .allowedHeaders("*")
